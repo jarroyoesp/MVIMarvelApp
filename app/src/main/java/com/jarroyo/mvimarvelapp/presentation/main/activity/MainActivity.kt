@@ -1,21 +1,55 @@
 package com.jarroyo.mvimarvelapp.presentation.main.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
+import android.util.Log
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jarroyo.mvimarvelapp.R
-import com.jarroyo.mvimarvelapp.presentation.main.contract.MainContract
-import com.jarroyo.mvimarvelapp.presentation.main.viewmodel.MainViewModel
-import com.jarroyo.mvimarvelapp.presentation.utils.IView
+import com.jarroyo.mvimarvelapp.databinding.ActivityMainBinding
+import com.jarroyo.mvimarvelapp.domain.model.UiModel
+import com.jarroyo.mvimarvelapp.presentation.main.fragment.ListFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), IView<MainContract.Effect> {
+class MainActivity : AppCompatActivity(), ListFragment.OnCharacterListListener {
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
+    }
 
+    private lateinit var binding: ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        initView()
+    }
+
+    private fun initView() {
+        Log.d(TAG, "[initView]")
+        val navView: BottomNavigationView = binding.navView
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_character_list, R.id.navigation_favorite
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+    }
+
+    override fun onClickCharacter(view: View, uiModel: UiModel) {
+        // TODO
+    }
+/*
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,5 +78,5 @@ class MainActivity : AppCompatActivity(), IView<MainContract.Effect> {
             is MainContract.Effect.ShowList -> {Toast.makeText(this, "${effect.list}", Toast.LENGTH_SHORT).show()}
             is MainContract.Effect.ShowError -> {Toast.makeText(this, "${effect.message}", Toast.LENGTH_SHORT).show()}
         }
-    }
+    }*/
 }

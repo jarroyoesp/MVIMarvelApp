@@ -27,7 +27,6 @@ constructor(
         private val TAG = MainViewModel::class.java.simpleName
     }
 
-
     // INTENTS
     override val intents: Channel<MainContract.Intent> = Channel(Channel.UNLIMITED)
 
@@ -64,6 +63,7 @@ constructor(
         viewModelScope.launch {
             updateState { it.copy(isLoading = true) }
             val result = getListInteractor.invoke(0)
+            sendEffect { MainContract.Effect.HideLoading }
             Log.d(TAG, "[fetchData] result $result")
             if (result.isSuccess) {
                 updateState { it.copy(isLoading = false, list = result.getOrNull()) }

@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_character_list"
+        android:enabled="true"
+        android:icon="@drawable/ic_list"
+        android:title="@string/list"/>
+    <item
+        android:id="@+id/navigation_favorite"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/favorites"/>
+</menu>

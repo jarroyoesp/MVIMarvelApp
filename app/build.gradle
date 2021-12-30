@@ -32,6 +32,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    viewBinding {
+        enabled = true
+    }
+    buildFeatures {
+        viewBinding true
+    }
+
 }
 
 dependencies {
@@ -43,6 +51,9 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
@@ -72,4 +83,8 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:$fragment_ktx"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_ktx"
+
+    // Picasso
+    def picasso_version = "2.5.2"
+    implementation "com.squareup.picasso:picasso:$picasso_version"
 }

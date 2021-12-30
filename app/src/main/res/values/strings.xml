@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MVIMarvelApp</string>
+    <string name="list">List</string>
+    <string name="favorites">Favorites</string>
+    <string name="search">Search</string>
+    <string name="wait">Please wait a second</string>
+    <string name="retry">Retry</string>
+    <string name="error_message">Something goes wrong...</string>
+    <string name="no_content">Ups there is no content...</string>
 </resources>
