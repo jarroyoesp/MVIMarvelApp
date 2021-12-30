@@ -2,13 +2,14 @@ package com.jarroyo.mvimarvelapp.presentation.main.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -77,6 +78,7 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
         binding.fragmentCharacterListLayoutErrorButton.setOnClickListener { getData() }
         binding.fragmentCharacterListLayoutEmpty.visible()
         initRecyclerView()
+        initEditTextSearch()
     }
 
     /**
@@ -144,6 +146,12 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
         }
     }
 
+    private fun showInitialState() {
+        Log.d(TAG, "[showInitialState]")
+        binding.fragmentCharacterListLayoutEmpty.visible()
+        binding.fragmentCharacterListRv.gone()
+    }
+
     private fun showError(message: String) {
         Log.d(TAG, "[showError]")
         binding.fragmentCharacterListLayoutError.visible()
@@ -155,12 +163,14 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
         Log.d(TAG, "[showList] $list")
         binding.fragmentCharacterListLayoutEmpty.gone()
         binding.fragmentCharacterListRv.visible()
+        binding.fragmentCharacterListLayoutError.gone()
         adapter.updateList(list!!)
     }
 
     private fun showResults(list: List<UiModel>) {
         Log.d(TAG, "[showList] $list")
         binding.fragmentCharacterListLayoutEmpty.gone()
+        binding.fragmentCharacterListLayoutError.gone()
         binding.fragmentCharacterListRv.visible()
         adapter.showList(list)
     }
@@ -190,14 +200,41 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
             MainContract.Effect.HideLoading -> {
                 hideLoading()
             }
-            is MainContract.Effect.ShowList -> {
+            is MainContract.Effect.ShowPage -> {
                 showList(effect.list)
             }
             is MainContract.Effect.ShowError -> {
                 showError(effect.message)
             }
-            MainContract.Effect.InitialState -> {//TODO()
-             }
+            MainContract.Effect.InitialState -> {
+                showInitialState()
+            }
+            is MainContract.Effect.ShowSearch -> {
+                showResults(effect.list)
+            }
+            is MainContract.Effect.ResetList -> {
+                showResults(effect.list)
+            }
         }
+    }
+
+    private fun initEditTextSearch() {
+
+        binding.fragmentCharacterListEdittextSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                Log.d(TAG, "[afterTextChanged] $s")
+                lifecycleScope.launch {
+                    viewModel.intents.send(MainContract.Intent.SearchData(s.toString()))
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                Log.d(TAG, "[beforeTextChanged] $s")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d(TAG, "[onTextChanged] $s")
+            }
+        })
     }
 }

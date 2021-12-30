@@ -21,4 +21,10 @@ class DataRepositoryImpl(
             networkDataSource.getCharacterList(page)
         }
     }
+
+    override suspend fun search(name: String): Result<List<UiModel>?> {
+        return withContext(ioDispatcher){
+            networkDataSource.searchCharacterList(name)
+        }
+    }
 }
