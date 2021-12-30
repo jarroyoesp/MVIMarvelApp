@@ -11,8 +11,8 @@ import com.jarroyo.mvimarvelapp.presentation.utils.IModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.internal.ChannelFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,16 +31,14 @@ constructor(
     override val intents: Channel<MainContract.Intent> = Channel(Channel.UNLIMITED)
 
     // STATE
-    private val _state =
+    private val _state: MutableLiveData<MainContract.State> =
         MutableLiveData<MainContract.State>().apply { value = MainContract.State() }
     override val state: LiveData<MainContract.State>
         get() = _state
 
     // EFFECTS
-    private val _effects =
-        MutableLiveData<MainContract.Effect>().apply { value = MainContract.Effect.InitialState }
-    override val effects: LiveData<MainContract.Effect>
-        get() = _effects
+    private val _effect: Channel<MainContract.Effect> = Channel()
+    override val effects = _effect.receiveAsFlow()
 
     init {
         handlerIntent()
@@ -62,12 +60,18 @@ constructor(
     private fun fetchData() {
         viewModelScope.launch {
             updateState { it.copy(isLoading = true) }
-            val result = getListInteractor.invoke(0)
+            val result = getListInteractor.invoke(_state.value?.currentPage ?: 0)
             sendEffect { MainContract.Effect.HideLoading }
             Log.d(TAG, "[fetchData] result $result")
             if (result.isSuccess) {
-                updateState { it.copy(isLoading = false, list = result.getOrNull()) }
-                sendEffect { MainContract.Effect.ShowList(result.getOrNull()) }
+                val list = result.getOrNull()
+                list?.let {
+                    var currentPage = _state.value?.currentPage?.plus(1) ?: 0
+                    _state.value?.list?.addAll(it)
+                    updateState { it.copy(isLoading = false, list = _state.value?.list, currentPage = currentPage  ) }
+                    sendEffect { MainContract.Effect.ShowList(result.getOrNull()) }
+                }
+
             } else {
                 updateState {
                     it.copy(
@@ -84,8 +88,8 @@ constructor(
         _state.postValue(handler(state.value!!))
     }
 
-    private suspend fun sendEffect(handler: suspend (intent: MainContract.Effect) -> MainContract.Effect) {
-        _effects.postValue(handler(effects.value!!))
+    private fun sendEffect(effectBuilder: () -> MainContract.Effect) {
+        viewModelScope.launch { _effect.send(effectBuilder()) }
     }
 
     override fun onCleared() {

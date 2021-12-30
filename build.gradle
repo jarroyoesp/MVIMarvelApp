@@ -15,6 +15,7 @@ buildscript {
         // in the individual module build.gradle files
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
     }
+    apply from: project.rootProject.file("keys.gradle")
 }
 
 task clean(type: Delete) {

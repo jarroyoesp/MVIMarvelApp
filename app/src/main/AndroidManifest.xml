@@ -12,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MVIMarvelApp">
+        android:theme="@style/Theme.MVIMarvelApp"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".presentation.main.activity.MainActivity"
             android:exported="true">

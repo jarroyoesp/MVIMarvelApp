@@ -1,6 +1,8 @@
 package com.jarroyo.mvimarvelapp.domain.model
 
 import android.os.Parcelable
+import com.jarroyo.mvimarvelapp.data.remote.model.APIListResponse
+import com.jarroyo.mvimarvelapp.data.remote.model.ResultApi
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -20,9 +22,9 @@ data class ItemUIModel(
     val title: String
 ): Parcelable
 
-/*fun APICharacterListResponse.toDomainModel(): List<UiModel>? {
+fun APIListResponse.toDomainModel(): List<UiModel>? {
     return this.data?.results?.map {
-        CharacterUIModel(id = it.id,
+        UiModel(id = it.id,
             name = it.name,
             description = it.description,
             imageHomeUrl = getHomeImage(it),
@@ -33,29 +35,29 @@ data class ItemUIModel(
     }
 }
 
-private fun getHomeImage(result: Result): String {
+private fun getHomeImage(result: ResultApi): String {
     return "${result.thumbnail.path}/landscape_xlarge.${result.thumbnail.extension}"
 }
 
-private fun getComics(result: Result): List<ItemUIModel> {
+private fun getComics(result: ResultApi): List<ItemUIModel> {
     return result.comics.items.map {
         ItemUIModel(it.resourceURI, it.name)
     }
 }
 
-private fun getSeries(result: Result): List<ItemUIModel> {
+private fun getSeries(result: ResultApi): List<ItemUIModel> {
     return result.series.items.map {
         ItemUIModel(it.resourceURI, it.name)
     }
 }
 
-private fun getStories(result: Result): List<ItemUIModel> {
+private fun getStories(result: ResultApi): List<ItemUIModel> {
     return result.stories.items.map {
         ItemUIModel(it.resourceURI, it.name)
     }
 }
 
-fun UiModel.toEntity(): CharacterEntity {
+/*fun UiModel.toEntity(): CharacterEntity {
     return CharacterEntity(id = this.id,
         name = this.name,
         description = this.description,

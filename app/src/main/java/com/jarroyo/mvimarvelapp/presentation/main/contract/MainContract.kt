@@ -9,8 +9,9 @@ object MainContract {
 
     data class State (
         val isLoading: Boolean = false,
-        var list: List<UiModel>? = emptyList(),
-        val errorMessage: String? = null
+        var list: MutableList<UiModel>? = mutableListOf(),
+        val errorMessage: String? = null,
+        var currentPage: Int = 0
     ) : ViewState
 
     sealed class Intent : ViewIntent {

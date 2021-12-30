@@ -22,6 +22,8 @@ import com.jarroyo.mvimarvelapp.presentation.utils.addGridSeparators
 import com.jarroyo.mvimarvelapp.presentation.utils.gone
 import com.jarroyo.mvimarvelapp.presentation.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 
@@ -81,9 +83,11 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
      * Initialize ViewModel Observers
      */
     private fun observeState() {
-        viewModel.effects.observe(this, Observer {
-            render(it)
-        })
+        lifecycleScope.launch {
+            viewModel.effects.onEach { effect ->
+                render(effect)
+            }.collect()
+        }
     }
 
     private fun initRecyclerView() {
@@ -192,6 +196,8 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
             is MainContract.Effect.ShowError -> {
                 showError(effect.message)
             }
+            MainContract.Effect.InitialState -> {//TODO()
+             }
         }
     }
 }
