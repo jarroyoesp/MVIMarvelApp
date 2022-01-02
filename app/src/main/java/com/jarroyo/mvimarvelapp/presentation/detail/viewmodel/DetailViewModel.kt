@@ -84,11 +84,14 @@ constructor(
 
         if (state.value!!.isFavorite) {
             removeFavoriteInteractor(uiModel)
+            updateState { it.copy(isFavorite = false) }
             sendEffect { DetailContract.Effect.ShowIsNoFavorite }
+            sendEffect { DetailContract.Effect.ShowSnackBar(false) }
         } else {
-
             saveFavoriteInteractor(uiModel)
+            updateState { it.copy(isFavorite = true) }
             sendEffect { DetailContract.Effect.ShowIsFavorite }
+            sendEffect { DetailContract.Effect.ShowSnackBar(true) }
         }
     }
 

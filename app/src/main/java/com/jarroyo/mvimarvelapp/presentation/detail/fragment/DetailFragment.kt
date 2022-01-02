@@ -225,6 +225,9 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
             DetailContract.Effect.ShowIsFavorite -> showFavoriteState(true)
             DetailContract.Effect.ShowIsNoFavorite -> showFavoriteState(false)
             DetailContract.Effect.ShowLoading -> TODO()
+            is DetailContract.Effect.ShowSnackBar -> {
+                showStateAfterAction(effect.isFavorite)
+            }
         }
     }
 }

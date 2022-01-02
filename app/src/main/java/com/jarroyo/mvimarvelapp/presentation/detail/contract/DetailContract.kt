@@ -27,6 +27,7 @@ object DetailContract {
         object HideLoading: Effect()
         object ShowIsFavorite: Effect()
         object ShowIsNoFavorite: Effect()
+        data class  ShowSnackBar(val isFavorite: Boolean): Effect()
         data class ShowError(val throwable: Throwable) : Effect()
     }
 }
