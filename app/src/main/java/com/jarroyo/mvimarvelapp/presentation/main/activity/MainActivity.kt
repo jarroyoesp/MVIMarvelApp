@@ -1,5 +1,6 @@
 package com.jarroyo.mvimarvelapp.presentation.main.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,11 +13,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jarroyo.mvimarvelapp.R
 import com.jarroyo.mvimarvelapp.databinding.ActivityMainBinding
 import com.jarroyo.mvimarvelapp.domain.model.UiModel
+import com.jarroyo.mvimarvelapp.presentation.detail.activity.DetailActivity
+import com.jarroyo.mvimarvelapp.presentation.main.fragment.FavoriteFragment
 import com.jarroyo.mvimarvelapp.presentation.main.fragment.ListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), ListFragment.OnCharacterListListener {
+class MainActivity : AppCompatActivity(), ListFragment.OnCharacterListListener, FavoriteFragment.OnCharacterFavoriteListListener {
     companion object {
         private val TAG = MainActivity::class.java.simpleName
     }
@@ -47,36 +50,21 @@ class MainActivity : AppCompatActivity(), ListFragment.OnCharacterListListener {
     }
 
     override fun onClickCharacter(view: View, uiModel: UiModel) {
-        // TODO
-    }
-/*
-    private val viewModel: MainViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        observeState()
-        getData()
-    }
-    private fun observeState() {
-        viewModel.effects.observe(this, Observer {
-            render(it)
-        })
+        intentToDetail(uiModel)
     }
 
-    private fun getData() {
-        // Fetching data when the application launched
-        lifecycleScope.launch {
-            viewModel.intents.send(MainContract.Intent.FetchData)
-        }
+    override fun onClickCharacterFavorite(view: View, uiModel: UiModel) {
+        intentToDetail(uiModel)
     }
 
-    override fun render(effect: MainContract.Effect) {
-        when(effect) {
-            MainContract.Effect.ShowLoading -> {}
-            MainContract.Effect.HideLoading -> {}
-            is MainContract.Effect.ShowList -> {Toast.makeText(this, "${effect.list}", Toast.LENGTH_SHORT).show()}
-            is MainContract.Effect.ShowError -> {Toast.makeText(this, "${effect.message}", Toast.LENGTH_SHORT).show()}
-        }
-    }*/
+    /**
+     * Intent to Detail
+     */
+    private fun intentToDetail(uiModel: UiModel) {
+        val intent = Intent(this, DetailActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable(DetailActivity.ARG_CHARACTER, uiModel)
+        intent.putExtras(bundle)
+        startActivity(intent)
+    }
 }

@@ -13,8 +13,8 @@
 
     <fragment
         android:id="@+id/navigation_favorite"
-        android:name="com.jarroyo.mvimarvelapp.presentation.main.fragment.ListFragment"
+        android:name="com.jarroyo.mvimarvelapp.presentation.main.fragment.FavoriteFragment"
         android:label="@string/favorites"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_favorite" />
 
 </navigation>

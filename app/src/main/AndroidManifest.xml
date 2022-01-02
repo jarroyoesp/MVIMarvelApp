@@ -23,6 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".presentation.detail.activity.DetailActivity"
+            android:exported="true"
+            android:label="@string/title_activity_detail"
+            android:theme="@style/Theme.MVIMarvelApp.NoActionBar" />
     </application>
 
 </manifest>

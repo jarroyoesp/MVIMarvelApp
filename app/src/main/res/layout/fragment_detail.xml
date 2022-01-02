@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <include
+            android:id="@+id/fragment_detail_toolbar"
+            layout="@layout/toolbar_collapsable" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_general"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/fragment_detail_tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/fragment_character_detail_layout_comics"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/padding_medium"
+                android:orientation="vertical"
+                android:layout_below="@+id/fragment_detail_tv_description"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/fragment_character_detail_comics_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comics"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_primary"
+                    android:layout_marginTop="@dimen/separation"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fragment_character_detail_comics_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/rv_detail_height"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/fragment_character_detail_layout_series"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/padding_medium"
+                android:orientation="vertical"
+                android:layout_below="@+id/fragment_character_detail_layout_comics"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/fragment_character_detail_series_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/series"
+                    android:textStyle="bold"
+                    android:textColor="@color/purple_200"
+                    android:layout_marginTop="@dimen/separation"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fragment_character_detail_series_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/rv_detail_height"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/fragment_character_detail_layout_stories"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/padding_medium"
+                android:orientation="vertical"
+                android:layout_below="@+id/fragment_character_detail_layout_series"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/fragment_character_detail_stories_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stories"
+                    android:textStyle="bold"
+                    android:textColor="@color/teal_700"
+                    android:layout_marginTop="@dimen/separation"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fragment_character_detail_stories_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/rv_detail_height"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fragment_detail_fav_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:elevation="5dp"
+        android:src="@drawable/ic_favorite_unselected"
+        app:layout_anchor="@+id/fragment_detail_toolbar"
+        app:layout_anchorGravity="bottom|end"
+        app:pressedTranslationZ="12dp" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

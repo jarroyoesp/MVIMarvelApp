@@ -7,4 +7,11 @@
     <string name="retry">Retry</string>
     <string name="error_message">Something goes wrong...</string>
     <string name="no_content">Ups there is no content...</string>
+    <string name="no_content_favorite">Ups there is no favorite, please add your favorites!</string>
+    <string name="comics">Comics</string>
+    <string name="series">Series</string>
+    <string name="stories">Stories</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="title_activity_detail">Detail</string>
 </resources>

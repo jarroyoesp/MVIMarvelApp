@@ -1,5 +1,6 @@
 package com.jarroyo.mvimarvelapp.di
 
+import com.jarroyo.mvimarvelapp.data.local.DiskDataSource
 import com.jarroyo.mvimarvelapp.data.remote.NetworkDataSource
 import com.jarroyo.mvimarvelapp.data.repository.DataRepositoryImpl
 import com.jarroyo.mvimarvelapp.domain.repository.DataRepository
@@ -16,8 +17,9 @@ object RepositoryModule {
     @Provides
     fun provideDataRepository(
         networkDataSource: NetworkDataSource,
+        diskDataSource: DiskDataSource,
         ioDispatcher: CoroutineDispatcher
     ): DataRepository {
-        return DataRepositoryImpl(networkDataSource, ioDispatcher)
+        return DataRepositoryImpl(networkDataSource, diskDataSource, ioDispatcher)
     }
 }

@@ -1,6 +1,7 @@
 package com.jarroyo.mvimarvelapp.domain.model
 
 import android.os.Parcelable
+import com.jarroyo.mvimarvelapp.data.local.model.CharacterEntity
 import com.jarroyo.mvimarvelapp.data.remote.model.APIListResponse
 import com.jarroyo.mvimarvelapp.data.remote.model.ResultApi
 import kotlinx.parcelize.Parcelize
@@ -57,7 +58,7 @@ private fun getStories(result: ResultApi): List<ItemUIModel> {
     }
 }
 
-/*fun UiModel.toEntity(): CharacterEntity {
+fun UiModel.toEntity(): CharacterEntity {
     return CharacterEntity(id = this.id,
         name = this.name,
         description = this.description,
@@ -66,7 +67,7 @@ private fun getStories(result: ResultApi): List<ItemUIModel> {
 
 fun CharacterEntity.toDomain(): UiModel{
     return this.let {
-        CharacterUIModel(
+        UiModel(
             id = this.id,
             name = this.name,
             description = this.description,
@@ -79,4 +80,4 @@ fun List<CharacterEntity>?.toDomain(): List<UiModel> {
     return this?.map {
         it.toDomain()
     }?: emptyList()
-}*/
+}
