@@ -97,8 +97,10 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
     private fun showFavoriteState(isFavorite: Boolean) {
         if (isFavorite) {
             binding.fragmentDetailFavButton.setImageResource(R.drawable.ic_favorite)
+            binding.fragmentDetailFavButton.tag = (R.drawable.ic_favorite)
         } else {
             binding.fragmentDetailFavButton.setImageResource(R.drawable.ic_favorite_unselected)
+            binding.fragmentDetailFavButton.tag = (R.drawable.ic_favorite_unselected)
         }
     }
 

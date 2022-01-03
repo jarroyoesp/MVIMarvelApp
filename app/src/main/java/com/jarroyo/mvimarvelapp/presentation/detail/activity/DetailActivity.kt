@@ -6,18 +6,19 @@ import com.jarroyo.mvimarvelapp.R
 import com.jarroyo.mvimarvelapp.databinding.ActivityDetailBinding
 import com.jarroyo.mvimarvelapp.domain.model.UiModel
 import com.jarroyo.mvimarvelapp.presentation.detail.fragment.DetailFragment
+import com.jarroyo.mvimarvelapp.presentation.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
     companion object {
 
-        const val ARG_CHARACTER = "ARG_CHARACTER"
+        const val ARG_ITEM = "ARG_ITEM"
     }
 
     private lateinit var binding: ActivityDetailBinding
 
-    private lateinit var uiModel: UiModel
+    private var uiModel: UiModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,11 +26,13 @@ class DetailActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         getExtras()
-        addFragment(uiModel)
+        uiModel?.let {
+            addFragment(it)
+        } ?: binding.activityDetailLayoutNoContent.layoutNoContentMain.visible()
     }
 
     private fun getExtras() {
-        uiModel  = intent.extras!!.get(ARG_CHARACTER) as UiModel
+        uiModel  = intent.extras?.get(ARG_ITEM) as? UiModel
     }
 
     private fun addFragment(uiModel: UiModel) {

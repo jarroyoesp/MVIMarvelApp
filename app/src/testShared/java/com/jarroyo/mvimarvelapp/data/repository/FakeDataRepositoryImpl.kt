@@ -13,6 +13,13 @@ class FakeDataRepositoryImpl(
 
         var resultList = mutableListOf<UiModel>()
         var favoriteList = mutableListOf<UiModel>()
+        var isFavorite = false
+
+        fun reset() {
+            var resultList = mutableListOf<UiModel>()
+            var favoriteList = mutableListOf<UiModel>()
+
+        }
     }
 
     override suspend fun getList(page: Int): Result<List<UiModel>?> {
@@ -36,6 +43,7 @@ class FakeDataRepositoryImpl(
     }
 
     override suspend fun isFavorite(uiModel: UiModel): Boolean {
-        return true
+        return isFavorite
     }
+
 }

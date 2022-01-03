@@ -69,6 +69,7 @@ Added UnitTests to check:
 # Espresso Tests
 
 - MainActivity
+- DetailActivity
 
 
 

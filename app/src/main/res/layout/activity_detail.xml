@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".presentation.detail.activity.DetailActivity">
 
+    <include
+        android:id="@+id/activity_detail_layout_no_content"
+        layout="@layout/layout_no_contents"></include>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

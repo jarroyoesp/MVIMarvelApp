@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), ListFragment.OnCharacterListListener, 
     private fun intentToDetail(uiModel: UiModel) {
         val intent = Intent(this, DetailActivity::class.java)
         val bundle = Bundle()
-        bundle.putParcelable(DetailActivity.ARG_CHARACTER, uiModel)
+        bundle.putParcelable(DetailActivity.ARG_ITEM, uiModel)
         intent.putExtras(bundle)
         startActivity(intent)
     }
