@@ -77,9 +77,13 @@ constructor(
             Log.d(TAG, "[fetchData] result $result")
             if (result.isSuccess) {
                 val list = result.getOrNull()
-                list?.let {
+                if (list.isNullOrEmpty()) {
+                    if (_state.value?.currentPage == 0) {
+                        sendEffect { MainContract.Effect.InitialState }
+                    }
+                } else {
                     var currentPage = _state.value?.currentPage?.plus(1) ?: 0
-                    _state.value?.list?.addAll(it)
+                    _state.value?.list?.addAll(list)
                     updateState { it.copy(isLoading = false, list = _state.value?.list, currentPage = currentPage  ) }
                     sendEffect { MainContract.Effect.ShowPage(list) }
                 }

@@ -56,7 +56,7 @@ To avoid having to add the authentication parameters in each request, we have cr
 <img src="https://github.com/jarroyoesp/MVIMarvelApp/blob/master/images/app_capture_detail.png" width="200">
 <img src="https://github.com/jarroyoesp/MVIMarvelApp/blob/master/images/app_capture_favorite.png" width="200">
 
-# Tests
+# Unit Tests
 
 Added UnitTests to check:
 - DataSources (NetworkDataSource & diskDataSource)
@@ -65,6 +65,10 @@ Added UnitTests to check:
 - ViewModels
 - Check request url
 - Check request parse data
+
+# Espresso Tests
+
+- MainActivity
 
 
 
