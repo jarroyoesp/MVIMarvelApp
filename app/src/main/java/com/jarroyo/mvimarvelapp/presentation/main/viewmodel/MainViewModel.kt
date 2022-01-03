@@ -1,6 +1,7 @@
 package com.jarroyo.mvimarvelapp.presentation.main.viewmodel
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,6 +29,8 @@ constructor(
 
     companion object {
         private val TAG = MainViewModel::class.java.simpleName
+        @VisibleForTesting
+        var DEBOUNCE = 500L
     }
 
     // INTENTS
@@ -96,7 +99,7 @@ constructor(
 
     private fun searchDataFlow() {
         viewModelScope.launch {
-            _state.value?.searchFlow?.debounce(500)
+            _state.value?.searchFlow?.debounce(DEBOUNCE)
             ?.distinctUntilChanged()
             ?.collect {
                 when (it) {
@@ -139,6 +142,8 @@ constructor(
                 } else {
                     sendEffect { MainContract.Effect.ShowSearch(list) }
                 }
+            } else {
+                sendEffect { MainContract.Effect.InitialState }
             }
         }
     }
