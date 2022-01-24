@@ -59,11 +59,6 @@ constructor(
         }
     }
 
-
-    private suspend fun updateState(handler: suspend (intent: FavoriteContract.State) -> FavoriteContract.State) {
-        _state.postValue(handler(state.value!!))
-    }
-
     private fun sendEffect(effectBuilder: () -> FavoriteContract.Effect) {
         viewModelScope.launch { _effect.send(effectBuilder()) }
     }

@@ -108,5 +108,4 @@ class FavoriteViewModelTest {
             assert(effectList[1] is FavoriteContract.Effect.HideLoading)
             assert(effectList[2] is FavoriteContract.Effect.ShowError)
         }
-
 }

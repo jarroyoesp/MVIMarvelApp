@@ -1,6 +1,10 @@
 package com.jarroyo.mvimarvelapp.data.local.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Insert
+import androidx.room.Delete
 import com.jarroyo.mvimarvelapp.data.local.model.CharacterEntity
 import com.jarroyo.mvimarvelapp.data.local.model.TABLE_CHARACTER
 

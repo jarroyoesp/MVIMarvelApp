@@ -5,6 +5,8 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id 'jacoco'
+    id 'io.gitlab.arturbosch.detekt'
+    //id 'org.cqfn.diktat.diktat-gradle-plugin'
 }
 
 android {
@@ -32,6 +34,7 @@ android {
         release {
             it.buildConfigField "String", "API_KEY", keys.apiKey
             it.buildConfigField "String", "API_PRIVATE_KEY", keys.apiPrivateKey
+            buildConfigField "String", "BASE_URL", "\"https://gateway.marvel.com:443/v1/public/\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

@@ -16,6 +16,10 @@ class ApiParamsInterceptor : Interceptor {
         private const val PARAM_API_KEY = "apikey"
         private const val PARAM_HASH = "hash"
         private const val PARAM_TS = "ts"
+        private const val SIGNUM = 1
+        private const val RADIX = 16
+        private const val LENGTH = 32
+        private const val PADCHAR = '0'
     }
 
     @Throws(IOException::class)
@@ -34,6 +38,6 @@ class ApiParamsInterceptor : Interceptor {
     private fun generateHash(timestamp: Long): String {
         val hash = "${timestamp}${BuildConfig.API_PRIVATE_KEY}${BuildConfig.API_KEY}"
         val md = MessageDigest.getInstance("MD5")
-        return BigInteger(1, md.digest(hash.toByteArray())).toString(16).padStart(32, '0')
+        return BigInteger(SIGNUM, md.digest(hash.toByteArray())).toString(RADIX).padStart(LENGTH, PADCHAR)
     }
 }

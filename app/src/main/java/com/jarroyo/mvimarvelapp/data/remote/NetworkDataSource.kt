@@ -16,7 +16,6 @@ class NetworkDataSourceImpl(
 ) : NetworkDataSource {
 
     companion object {
-        private val TAG = NetworkDataSourceImpl::class.java.simpleName
         private const val LIMIT = 20
     }
 

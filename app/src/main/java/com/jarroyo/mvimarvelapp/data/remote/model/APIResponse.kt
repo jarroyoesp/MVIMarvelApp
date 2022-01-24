@@ -1,5 +1,7 @@
 package com.jarroyo.mvimarvelapp.data.remote.model
 
+import com.squareup.moshi.Json
+
 class APICharacterResponse
 
 data class APIListResponse(
@@ -7,7 +9,8 @@ data class APIListResponse(
     val attributionText: String = "",
     val code: Int = 0,
     val copyright: String = "",
-    val `data`: Data? = null,
+    @Json(name="data")
+    val apiData: Data? = null,
     val etag: String = "",
     val status: String = ""
 )

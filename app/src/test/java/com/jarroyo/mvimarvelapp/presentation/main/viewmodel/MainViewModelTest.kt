@@ -158,6 +158,4 @@ class MainViewModelTest {
             assert(effectList[1] is MainContract.Effect.HideLoading)
             assert(effectList[2] is MainContract.Effect.InitialState)
         }
-
-
 }

@@ -14,10 +14,6 @@ class DataRepositoryImpl(
     private val ioDispatcher: CoroutineDispatcher
 ) : DataRepository {
 
-    companion object {
-        private val TAG = DataRepositoryImpl::class.java.simpleName
-    }
-
     override suspend fun getList(page: Int): Result<List<UiModel>?> {
         return withContext(ioDispatcher) {
             networkDataSource.getCharacterList(page)
@@ -30,17 +26,17 @@ class DataRepositoryImpl(
         }
     }
 
-    override suspend fun saveFavorite(UiModel: UiModel): Result<Boolean> {
+    override suspend fun saveFavorite(uiModel: UiModel): Result<Boolean> {
         return withContext(ioDispatcher) {
-            diskDataSource.insertCharacter(UiModel.toEntity())
+            diskDataSource.insertCharacter(uiModel.toEntity())
             Result.success(true)
 
         }
     }
 
-    override suspend fun removeFavorite(UiModel: UiModel): Result<Boolean> {
+    override suspend fun removeFavorite(uiModel: UiModel): Result<Boolean> {
         return withContext(ioDispatcher) {
-            diskDataSource.removeCharacter(UiModel.id)
+            diskDataSource.removeCharacter(uiModel.id)
             Result.success(true)
         }
     }
@@ -51,9 +47,9 @@ class DataRepositoryImpl(
         }
     }
 
-    override suspend fun isFavorite(UiModel: UiModel): Boolean {
+    override suspend fun isFavorite(uiModel: UiModel): Boolean {
         return withContext(ioDispatcher) {
-            diskDataSource.getCharacter(UiModel.id).fold({
+            diskDataSource.getCharacter(uiModel.id).fold({
                 it?.let {
                     true
                 } ?: false
@@ -63,3 +59,4 @@ class DataRepositoryImpl(
         }
     }
 }
+

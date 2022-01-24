@@ -8,9 +8,11 @@ import org.junit.Test
 class UrlTest : BaseRequestTest() {
 
     private val urlCharacterList =
-        "https://gateway.marvel.com/v1/public/${ApiService.URL_PATH_CHARACTERS}?${ApiService.QUERY_OFFSET}=0"
+        "https://gateway.marvel.com/v1/public/" +
+                "${ApiService.URL_PATH_CHARACTERS}?${ApiService.QUERY_OFFSET}=0"
     private val urlSearchCharacterList =
-        "https://gateway.marvel.com/v1/public/${ApiService.URL_PATH_CHARACTERS}?${ApiService.QUERY_NAME_STARTS_WITH}=name"
+        "https://gateway.marvel.com/v1/public/" +
+                "${ApiService.URL_PATH_CHARACTERS}?${ApiService.QUERY_NAME_STARTS_WITH}=name"
 
     @Test
     fun retrofitCheckGetCharacterList() {
@@ -29,5 +31,4 @@ class UrlTest : BaseRequestTest() {
             assertEquals(urlSearchCharacterList, urlRetrofit)
         }
     }
-
 }

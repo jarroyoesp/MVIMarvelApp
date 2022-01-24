@@ -16,9 +16,8 @@ class ParseDataTest : BaseParseRequestTest() {
             // WHEN
             var response: Response<APIListResponse>? = null
             response = prepareRetrofitService("character_list.json").getCharacterList(0)
-            assertEquals(1011334L, response.body()?.data!!.results[0].id)
-            assertEquals("3-D Man", response.body()?.data!!.results[0].name)
+            assertEquals(1011334L, response.body()?.apiData!!.results[0].id)
+            assertEquals("3-D Man", response.body()?.apiData!!.results[0].name)
         }
     }
-
 }

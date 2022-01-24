@@ -7,8 +7,10 @@ import androidx.room.RoomDatabase
 import com.jarroyo.mvimarvelapp.data.local.dao.CharacterDao
 import com.jarroyo.mvimarvelapp.data.local.model.CharacterEntity
 
-@Database(entities = [CharacterEntity::class], version = 1)
-abstract class AppDatabase : RoomDatabase() {
+@Database(
+    entities = [CharacterEntity::class], version = 1
+)
+abstract class AppRoomDatabase : RoomDatabase() {
 
     abstract fun characterDao(): CharacterDao
 
@@ -17,9 +19,9 @@ abstract class AppDatabase : RoomDatabase() {
 
 
         fun createInstance(appContext: Application):
-                AppDatabase = Room.databaseBuilder(
+                AppRoomDatabase = Room.databaseBuilder(
             appContext,
-            AppDatabase::class.java, DATABASE_NAME
+            AppRoomDatabase::class.java, DATABASE_NAME
         ).build()
     }
 }

@@ -19,7 +19,8 @@ import com.jarroyo.mvimarvelapp.presentation.main.fragment.ListFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), ListFragment.OnCharacterListListener, FavoriteFragment.OnCharacterFavoriteListListener {
+class MainActivity : AppCompatActivity(), ListFragment.OnCharacterListListener,
+    FavoriteFragment.OnCharacterFavoriteListListener {
     companion object {
         private val TAG = MainActivity::class.java.simpleName
     }

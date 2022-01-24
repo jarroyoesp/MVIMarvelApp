@@ -10,13 +10,12 @@ import io.mockk.impl.annotations.MockK
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
 class DiskDataSourceImplTest {
     @MockK
-    private lateinit var database: AppDatabase
+    private lateinit var roomDatabase: AppRoomDatabase
 
     private lateinit var diskDataSourceImpl: DiskDataSourceImpl
 
@@ -24,7 +23,7 @@ class DiskDataSourceImplTest {
     fun setUp() {
         MockKAnnotations.init(this)
         diskDataSourceImpl = DiskDataSourceImpl(
-            database
+            roomDatabase
         )
     }
 
@@ -36,7 +35,7 @@ class DiskDataSourceImplTest {
     @Test
     fun `GIVEN success WHEN call getCharacterList THEN returns EitherRight`() = runBlocking {
         // Given
-        coEvery { database.characterDao().getAll()} returns mockCharacterEntityList
+        coEvery { roomDatabase.characterDao().getAll()} returns mockCharacterEntityList
 
         // When
         val response = diskDataSourceImpl.getCharacterList()
@@ -49,7 +48,7 @@ class DiskDataSourceImplTest {
     @Test
     fun `GIVEN success WHEN call getCharacter THEN returns EitherRight`() = runBlocking {
         // Given
-        coEvery { database.characterDao().getCharacter(any())} returns mockCharacterEntity
+        coEvery { roomDatabase.characterDao().getCharacter(any())} returns mockCharacterEntity
 
         // When
         val response = diskDataSourceImpl.getCharacter(1)
@@ -58,5 +57,4 @@ class DiskDataSourceImplTest {
         assert(response.isSuccess)
         assertEquals(response.getOrNull(), mockCharacterEntity.toDomain())
     }
-
 }

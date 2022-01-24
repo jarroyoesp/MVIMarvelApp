@@ -24,7 +24,7 @@ data class ItemUIModel(
 ): Parcelable
 
 fun APIListResponse.toDomainModel(): List<UiModel>? {
-    return this.data?.results?.map {
+    return this.apiData?.results?.map {
         UiModel(id = it.id,
             name = it.name,
             description = it.description,

@@ -3,6 +3,7 @@ buildscript {
     ext.kotlin_version = "1.5.30"
     ext.hilt_version = "2.40.5"
     ext.jacocoVersion = '0.8.7'
+    ext.detektVersion = '1.19.0'
 
     repositories {
         google()
@@ -16,6 +17,8 @@ buildscript {
         // in the individual module build.gradle files
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "org.jacoco:org.jacoco.core:$jacocoVersion"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
+        classpath "org.cqfn.diktat:diktat-gradle-plugin:1.0.2"
     }
     apply from: project.rootProject.file("keys.gradle")
 }

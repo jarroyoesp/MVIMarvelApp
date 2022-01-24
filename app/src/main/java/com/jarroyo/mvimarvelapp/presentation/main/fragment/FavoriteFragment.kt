@@ -26,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
 
 @AndroidEntryPoint
 class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
@@ -47,7 +48,7 @@ class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
         if (context is OnCharacterFavoriteListListener) {
             listener = context
         } else {
-            throw RuntimeException("$context must implement OnCharacterFavoriteListListener")
+            throw IllegalArgumentException("$context must implement OnCharacterFavoriteListListener")
         }
     }
 
@@ -93,7 +94,7 @@ class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
     }
 
     private fun showError(throwable: Throwable) {
-        Log.d(TAG, "[showError]")
+        Log.d(TAG, "[showError] $throwable")
     }
 
     private fun showList(list: List<UiModel>) {
@@ -122,7 +123,7 @@ class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
     }
 
     interface OnCharacterFavoriteListListener {
-        fun onClickCharacterFavorite(view: View, UiModel: UiModel)
+        fun onClickCharacterFavorite(view: View, uiModel: UiModel)
     }
 
 

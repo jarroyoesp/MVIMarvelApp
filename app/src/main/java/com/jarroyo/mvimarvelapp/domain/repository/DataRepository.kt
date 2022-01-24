@@ -15,5 +15,4 @@ interface DataRepository {
     suspend fun removeFavorite(uiModel: UiModel): Result<Boolean>
     suspend fun getFavorite(): Result<List<UiModel>?>
     suspend fun isFavorite(uiModel: UiModel): Boolean
-
 }

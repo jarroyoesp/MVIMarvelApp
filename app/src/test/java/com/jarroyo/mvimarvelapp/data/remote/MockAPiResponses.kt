@@ -9,5 +9,4 @@ object MockAPiResponses {
     fun <T>getErrorResponse(): Response<T> = error<T>(404,
         "responseString".toByteArray().toResponseBody("application/json".toMediaTypeOrNull())
     )
-
 }

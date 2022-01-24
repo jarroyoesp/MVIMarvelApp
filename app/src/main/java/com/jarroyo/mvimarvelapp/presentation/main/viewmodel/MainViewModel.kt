@@ -15,7 +15,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,6 +33,7 @@ constructor(
 
     companion object {
         private val TAG = MainViewModel::class.java.simpleName
+
         @VisibleForTesting
         var DEBOUNCE = 500L
     }
@@ -84,7 +89,13 @@ constructor(
                 } else {
                     var currentPage = _state.value?.currentPage?.plus(1) ?: 0
                     _state.value?.list?.addAll(list)
-                    updateState { it.copy(isLoading = false, list = _state.value?.list, currentPage = currentPage  ) }
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            list = _state.value?.list,
+                            currentPage = currentPage
+                        )
+                    }
                     sendEffect { MainContract.Effect.ShowPage(list) }
                 }
 
@@ -95,7 +106,11 @@ constructor(
                         errorMessage = result.exceptionOrNull()?.message
                     )
                 }
-                sendEffect { MainContract.Effect.ShowError(result.exceptionOrNull()?.message ?: "Something goes wrong") }
+                sendEffect {
+                    MainContract.Effect.ShowError(
+                        result.exceptionOrNull()?.message ?: "Something goes wrong"
+                    )
+                }
             }
         }
     }
@@ -104,26 +119,26 @@ constructor(
     private fun searchDataFlow() {
         viewModelScope.launch {
             _state.value?.searchFlow?.debounce(DEBOUNCE)
-            ?.distinctUntilChanged()
-            ?.collect {
-                when (it) {
-                    EditTextSearchState.Init -> {
-                    }
-                    is EditTextSearchState.Search -> {
-                        if (it.query.isNullOrEmpty()) {
-                            Log.d(TAG, "[searchDataFlow] isNullOrEmpty")
-                            jobSearch?.cancel()
-                            state.value?.list?.let {
-                                sendEffect { MainContract.Effect.ResetList(it) }
-                            } ?: sendEffect { MainContract.Effect.InitialState }
+                ?.distinctUntilChanged()
+                ?.collect {
+                    when (it) {
+                        EditTextSearchState.Init -> {
+                        }
+                        is EditTextSearchState.Search -> {
+                            if (it.query.isNullOrEmpty()) {
+                                Log.d(TAG, "[searchDataFlow] isNullOrEmpty")
+                                jobSearch?.cancel()
+                                state.value?.list?.let {
+                                    sendEffect { MainContract.Effect.ResetList(it) }
+                                } ?: sendEffect { MainContract.Effect.InitialState }
 
-                        } else {
-                            Log.d(TAG, "[searchDataFlow] $it")
-                            search(it.query)
+                            } else {
+                                Log.d(TAG, "[searchDataFlow] $it")
+                                search(it.query)
+                            }
                         }
                     }
                 }
-            }
         }
     }
 
@@ -132,7 +147,7 @@ constructor(
      */
     private fun search(name: String) {
         jobSearch?.cancel()
-        jobSearch = viewModelScope.launch{
+        jobSearch = viewModelScope.launch {
             updateState { it.copy(isLoading = true) }
             sendEffect { MainContract.Effect.ShowLoading }
             val result = searchInteractor.invoke(name)
@@ -152,7 +167,9 @@ constructor(
         }
     }
 
-    private suspend fun updateState(handler: suspend (intent: MainContract.State) -> MainContract.State) {
+    private suspend fun updateState(
+        handler: suspend (intent: MainContract.State) -> MainContract.State
+    ) {
         _state.postValue(handler(state.value!!))
     }
 

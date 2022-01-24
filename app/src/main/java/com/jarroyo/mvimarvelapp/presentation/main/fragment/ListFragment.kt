@@ -26,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
 
 
 @AndroidEntryPoint
@@ -33,7 +34,6 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
 
     companion object {
         private val TAG = ListFragment::class.java.simpleName
-        private const val DEBOUNCE_SEARCH = 600L
 
         @JvmStatic
         fun newInstance() = ListFragment()
@@ -55,7 +55,7 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
         if (context is OnCharacterListListener) {
             listener = context
         } else {
-            throw RuntimeException("$context must implement OnCharacterListListener")
+            throw IllegalArgumentException("$context must implement OnCharacterListListener")
         }
     }
 
@@ -121,7 +121,7 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
                 super.onScrollStateChanged(recyclerView, newState)
                 when (newState) {
                     RecyclerView.SCROLL_STATE_IDLE -> {
-                        if (isUserScroll && !isUserSearching && !recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        if (recyclerView.canUserScroll(newState)) {
                             isUserScroll = false
                             Log.d(TAG, "[onScrollStateChanged] end")
                             getData()
@@ -139,6 +139,11 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
         })
     }
 
+    private fun RecyclerView.canUserScroll(newState: Int) = isUserScroll
+            && !isUserSearching
+            && !this.canScrollVertically(1)
+            && newState == RecyclerView.SCROLL_STATE_IDLE
+
     private fun getData() {
         // Fetching data when the application launched
         lifecycleScope.launch {
@@ -153,7 +158,7 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
     }
 
     private fun showError(message: String) {
-        Log.d(TAG, "[showError]")
+        Log.d(TAG, "[showError] $message")
         binding.fragmentCharacterListLayoutError.visible()
         binding.fragmentCharacterListRv.gone()
         binding.fragmentCharacterListLayoutEmpty.gone()

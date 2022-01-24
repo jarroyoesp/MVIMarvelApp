@@ -1,11 +1,16 @@
 package com.jarroyo.mvimarvelapp.di
 
+
 import android.app.Application
 import android.content.Context
-import com.jarroyo.mvimarvelapp.data.local.AppDatabase
+import com.jarroyo.mvimarvelapp.data.local.AppRoomDatabase
 import com.jarroyo.mvimarvelapp.data.local.DiskDataSource
 import com.jarroyo.mvimarvelapp.data.local.DiskDataSourceImpl
-import com.jarroyo.mvimarvelapp.data.remote.*
+import com.jarroyo.mvimarvelapp.data.remote.ApiService
+import com.jarroyo.mvimarvelapp.data.remote.NetworkDataSource
+import com.jarroyo.mvimarvelapp.data.remote.NetworkSystem
+import com.jarroyo.mvimarvelapp.data.remote.NetworkSystemImpl
+import com.jarroyo.mvimarvelapp.data.remote.NetworkDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,13 +34,12 @@ object DataModule {
     }
 
     @Provides
-    fun provideDataBase(@ApplicationContext context: Context): AppDatabase {
-        return AppDatabase.createInstance(context as Application)
+    fun provideDataBase(@ApplicationContext context: Context): AppRoomDatabase {
+        return AppRoomDatabase.createInstance(context as Application)
     }
 
     @Provides
-    fun provideDiskDataSource(database: AppDatabase): DiskDataSource {
-        return DiskDataSourceImpl(database)
+    fun provideDiskDataSource(roomDatabase: AppRoomDatabase): DiskDataSource {
+        return DiskDataSourceImpl(roomDatabase)
     }
-
 }
