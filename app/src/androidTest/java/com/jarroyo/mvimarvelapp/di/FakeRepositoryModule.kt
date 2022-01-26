@@ -16,5 +16,4 @@ class FakeRepositoryModule {
 
     @Provides
     fun getProfileSource(): DataRepository = FakeDataRepositoryImpl()
-
 }

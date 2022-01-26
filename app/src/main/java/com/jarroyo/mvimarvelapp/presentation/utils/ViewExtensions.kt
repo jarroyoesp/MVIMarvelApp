@@ -53,23 +53,21 @@ fun <T> RecyclerView.Adapter<*>.notifyChanges(
 }
 
 fun RecyclerView.addGridSeparators() {
-    // Separator
-    var itemDecoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
-    itemDecoration.setDrawable(
-        ContextCompat.getDrawable(
-            this.context,
-            R.drawable.divider_rv_transparent
-        )!!
-    )
-    var itemDecorationHorizontal =
-        DividerItemDecoration(this.context, DividerItemDecoration.HORIZONTAL)
-    itemDecorationHorizontal.setDrawable(
-        ContextCompat.getDrawable(
-            this.context,
-            R.drawable.divider_rv_transparent
-        )!!
-    )
-    this.addItemDecoration(itemDecoration)
-    this.addItemDecoration(itemDecorationHorizontal)
+    ContextCompat.getDrawable(
+        this.context,
+        R.drawable.divider_rv_transparent
+    )?.let {
+        // Separator
+        val itemDecoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
+        itemDecoration.setDrawable(
+            it
+        )
+        val itemDecorationHorizontal =
+            DividerItemDecoration(this.context, DividerItemDecoration.HORIZONTAL)
+        itemDecorationHorizontal.setDrawable(
+            it
+        )
+        this.addItemDecoration(itemDecoration)
+        this.addItemDecoration(itemDecorationHorizontal)
+    }
 }
-

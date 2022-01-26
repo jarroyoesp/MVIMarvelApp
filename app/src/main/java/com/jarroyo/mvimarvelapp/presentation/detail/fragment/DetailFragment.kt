@@ -42,8 +42,8 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments.let {
-            uiModel = it!!.getParcelable(ARG_CHARACTER)!!
+        (arguments?.getParcelable(ARG_CHARACTER) as? UiModel)?.let {
+            uiModel = it
         }
     }
 
@@ -64,9 +64,7 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
         )
         initView()
         observeState()
-        uiModel?.let {
-            getData()
-        }
+        getData()
     }
 
     private fun getData() {
@@ -123,21 +121,19 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
         configRecyclerviewSeries()
         configRecyclerviewStories()
         binding.fragmentDetailFavButton.setOnClickListener {
-            uiModel?.let {
-                saveFavorite()
-            }
+            saveFavorite()
         }
 
-        binding.fragmentDetailTvDescription.text = uiModel?.description
-        binding.fragmentDetailToolbar.toolbarCollapsableTvTitle.title = uiModel?.name
+        binding.fragmentDetailTvDescription.text = uiModel.description
+        binding.fragmentDetailToolbar.toolbarCollapsableTvTitle.title = uiModel.name
         binding.fragmentDetailToolbar.toolbarCollapsableImageHeader.loadUrl(
             requireContext(),
-            uiModel?.imageHomeUrl
+            uiModel.imageHomeUrl
         )
     }
 
     private fun configRecyclerviewComics() {
-        uiModel?.comicList?.let {
+        uiModel.comicList?.let {
             if (it.isEmpty()) {
                 binding.fragmentCharacterDetailLayoutComics.gone()
             } else {
@@ -156,7 +152,7 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
     }
 
     private fun configRecyclerviewSeries() {
-        uiModel?.seriesList?.let {
+        uiModel.seriesList?.let {
             if (it.isEmpty()) {
                 binding.fragmentCharacterDetailLayoutSeries.gone()
             } else {
@@ -175,7 +171,7 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
     }
 
     private fun configRecyclerviewStories() {
-        uiModel?.storiesList?.let {
+        uiModel.storiesList?.let {
             if (it.isEmpty()) {
                 binding.fragmentCharacterDetailLayoutStories.gone()
             } else {

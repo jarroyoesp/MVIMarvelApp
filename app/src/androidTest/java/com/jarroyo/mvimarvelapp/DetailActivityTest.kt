@@ -37,7 +37,7 @@ class DetailActivityTest {
     fun GIVEN_data_detail_WHEN_showDetail_THEN_view_is_shown() {
         hiltRule.inject()
 
-        val scenario = ActivityScenario.launch<DetailActivity>(createIntent())
+        ActivityScenario.launch<DetailActivity>(createIntent())
 
         onView(withId(R.id.fragment_detail_toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.fragment_detail_tv_description)).check(matches(isDisplayed()))
@@ -49,7 +49,7 @@ class DetailActivityTest {
         FakeDataRepositoryImpl.isFavorite = true
         hiltRule.inject()
 
-        val scenario = ActivityScenario.launch<DetailActivity>(createIntent())
+        ActivityScenario.launch<DetailActivity>(createIntent())
 
         onView(withId(R.id.fragment_detail_toolbar)).check(matches(isDisplayed()))
         onView(withTagValue(equalTo(R.drawable.ic_favorite))).check(matches(isDisplayed()))
@@ -61,7 +61,7 @@ class DetailActivityTest {
         FakeDataRepositoryImpl.isFavorite = false
         hiltRule.inject()
 
-        val scenario = ActivityScenario.launch<DetailActivity>(createIntent())
+        ActivityScenario.launch<DetailActivity>(createIntent())
 
         onView(withId(R.id.fragment_detail_toolbar)).check(matches(isDisplayed()))
         onView(withTagValue(equalTo(R.drawable.ic_favorite_unselected))).check(matches(isDisplayed()))
@@ -73,7 +73,7 @@ class DetailActivityTest {
         FakeDataRepositoryImpl.isFavorite = false
         hiltRule.inject()
 
-        val scenario = ActivityScenario.launch(DetailActivity::class.java)
+        ActivityScenario.launch(DetailActivity::class.java)
 
         onView(withId(R.id.activity_detail_layout_no_content)).check(matches(isDisplayed()))
     }
@@ -84,7 +84,10 @@ class DetailActivityTest {
             DetailActivity::class.java
         )
         val bundle = Bundle()
-        bundle.putParcelable(ARG_ITEM, UiModel(id = 1, name = "name", description = "Description", imageHomeUrl = "image"))
+        bundle.putParcelable(
+            ARG_ITEM,
+            UiModel(id = 1, name = "name", description = "Description", imageHomeUrl = "image")
+        )
         intent.putExtras(bundle)
         return intent
     }

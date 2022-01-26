@@ -82,7 +82,7 @@ constructor(
 
     private fun saveFavorite(uiModel: UiModel) = viewModelScope.launch {
 
-        if (state.value!!.isFavorite) {
+        if (state.value?.isFavorite == true) {
             removeFavoriteInteractor(uiModel)
             updateState { it.copy(isFavorite = false) }
             sendEffect { DetailContract.Effect.ShowIsNoFavorite }
@@ -100,7 +100,9 @@ constructor(
     }
 
     private suspend fun updateState(handler: suspend (intent: DetailContract.State) -> DetailContract.State) {
-        _state.postValue(handler(state.value!!))
+        state.value?.let {
+            _state.postValue(handler(it))
+        }
     }
 
     override fun onCleared() {

@@ -87,7 +87,7 @@ constructor(
                         sendEffect { MainContract.Effect.InitialState }
                     }
                 } else {
-                    var currentPage = _state.value?.currentPage?.plus(1) ?: 0
+                    val currentPage = _state.value?.currentPage?.plus(1) ?: 0
                     _state.value?.list?.addAll(list)
                     updateState {
                         it.copy(
@@ -125,7 +125,7 @@ constructor(
                         EditTextSearchState.Init -> {
                         }
                         is EditTextSearchState.Search -> {
-                            if (it.query.isNullOrEmpty()) {
+                            if (it.query.isEmpty()) {
                                 Log.d(TAG, "[searchDataFlow] isNullOrEmpty")
                                 jobSearch?.cancel()
                                 state.value?.list?.let {
@@ -170,7 +170,9 @@ constructor(
     private suspend fun updateState(
         handler: suspend (intent: MainContract.State) -> MainContract.State
     ) {
-        _state.postValue(handler(state.value!!))
+        state.value?.let {
+            _state.postValue(handler(it))
+        }
     }
 
     private fun sendEffect(effectBuilder: () -> MainContract.Effect) {

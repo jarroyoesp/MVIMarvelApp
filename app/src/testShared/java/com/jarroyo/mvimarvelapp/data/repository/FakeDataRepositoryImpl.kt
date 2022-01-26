@@ -5,20 +5,17 @@ import com.jarroyo.mvimarvelapp.domain.repository.DataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FakeDataRepositoryImpl(
-) : DataRepository {
+class FakeDataRepositoryImpl : DataRepository {
 
     companion object {
-        private val TAG = FakeDataRepositoryImpl::class.java.simpleName
 
         var resultList = mutableListOf<UiModel>()
         var favoriteList = mutableListOf<UiModel>()
         var isFavorite = false
 
         fun reset() {
-            var resultList = mutableListOf<UiModel>()
-            var favoriteList = mutableListOf<UiModel>()
-
+            resultList = mutableListOf()
+            favoriteList = mutableListOf()
         }
     }
 
@@ -45,5 +42,4 @@ class FakeDataRepositoryImpl(
     override suspend fun isFavorite(uiModel: UiModel): Boolean {
         return isFavorite
     }
-
 }

@@ -26,7 +26,7 @@ class MainActivityTest {
     fun GIVEN_data_in_repository_WHEN_listFragmentIsShown_THEN_show_data() {
         FakeDataRepositoryImpl.resultList = mockCharacterList
         hiltRule.inject()
-        val scenario = ActivityScenario.launch(MainActivity::class.java)
+        ActivityScenario.launch(MainActivity::class.java)
 
         onView(withId(R.id.nav_view)).check(matches(isDisplayed()))
         onView(withId(R.id.fragment_character_list_textinput_search)).check(matches(isDisplayed()))
@@ -38,7 +38,7 @@ class MainActivityTest {
     @Test
     fun GIVEN_NO_data_in_repository_WHEN_listFragmentIsShown_THEN_show_empty_info() {
         hiltRule.inject()
-        val scenario = ActivityScenario.launch(MainActivity::class.java)
+        ActivityScenario.launch(MainActivity::class.java)
 
         onView(withId(R.id.nav_view)).check(matches(isDisplayed()))
         onView(withId(R.id.fragment_character_list_textinput_search)).check(matches(isDisplayed()))
@@ -49,7 +49,7 @@ class MainActivityTest {
     @Test
     fun GIVEN_NO_favorites_WHEN_favoriteFragmentIsShown_THEN_show_empty_info() {
         hiltRule.inject()
-        val scenario = ActivityScenario.launch(MainActivity::class.java)
+        ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.navigation_favorite)).perform(click())
 
         onView(withId(R.id.nav_view)).check(matches(isDisplayed()))
@@ -61,7 +61,7 @@ class MainActivityTest {
     fun GIVEN_favorites_WHEN_favoriteFragmentIsShown_THEN_show_rv() {
         FakeDataRepositoryImpl.favoriteList = mockCharacterList
         hiltRule.inject()
-        val scenario = ActivityScenario.launch(MainActivity::class.java)
+        ActivityScenario.launch(MainActivity::class.java)
         onView(withId(R.id.navigation_favorite)).perform(click())
 
         onView(withId(R.id.nav_view)).check(matches(isDisplayed()))

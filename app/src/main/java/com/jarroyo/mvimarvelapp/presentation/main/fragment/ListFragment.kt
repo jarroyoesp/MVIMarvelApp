@@ -166,10 +166,12 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
 
     private fun showList(list: List<UiModel>?) {
         Log.d(TAG, "[showList] $list")
-        binding.fragmentCharacterListLayoutEmpty.gone()
-        binding.fragmentCharacterListRv.visible()
-        binding.fragmentCharacterListLayoutError.gone()
-        adapter.updateList(list!!)
+        list?.let {
+            binding.fragmentCharacterListLayoutEmpty.gone()
+            binding.fragmentCharacterListRv.visible()
+            binding.fragmentCharacterListLayoutError.gone()
+            adapter.updateList(it)
+        }
     }
 
     private fun showResults(list: List<UiModel>) {

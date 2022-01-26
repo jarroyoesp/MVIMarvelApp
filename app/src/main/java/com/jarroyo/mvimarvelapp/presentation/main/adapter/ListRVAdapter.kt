@@ -32,7 +32,7 @@ class ListRVAdapter(
     override fun getItemCount() = dataSet.size
 
     fun updateList(list: List<UiModel>) {
-        var auxList = dataSet.toMutableList()
+        val auxList = dataSet.toMutableList()
         auxList.addAll(list)
         dataSet = auxList
     }
