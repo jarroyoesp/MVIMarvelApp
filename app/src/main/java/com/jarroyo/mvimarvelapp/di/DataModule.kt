@@ -1,6 +1,5 @@
 package com.jarroyo.mvimarvelapp.di
 
-
 import android.app.Application
 import android.content.Context
 import com.jarroyo.mvimarvelapp.data.local.AppRoomDatabase
@@ -8,9 +7,9 @@ import com.jarroyo.mvimarvelapp.data.local.DiskDataSource
 import com.jarroyo.mvimarvelapp.data.local.DiskDataSourceImpl
 import com.jarroyo.mvimarvelapp.data.remote.ApiService
 import com.jarroyo.mvimarvelapp.data.remote.NetworkDataSource
+import com.jarroyo.mvimarvelapp.data.remote.NetworkDataSourceImpl
 import com.jarroyo.mvimarvelapp.data.remote.NetworkSystem
 import com.jarroyo.mvimarvelapp.data.remote.NetworkSystemImpl
-import com.jarroyo.mvimarvelapp.data.remote.NetworkDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

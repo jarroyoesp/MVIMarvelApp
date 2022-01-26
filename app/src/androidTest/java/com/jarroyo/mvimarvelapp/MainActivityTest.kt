@@ -10,10 +10,10 @@ import androidx.test.runner.AndroidJUnit4
 import com.jarroyo.mvimarvelapp.presentation.main.activity.MainActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.com.jarroyo.marvel.data.repository.FakeDataRepositoryImpl
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.com.jarroyo.marvel.data.repository.FakeDataRepositoryImpl
 
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
@@ -45,7 +45,6 @@ class MainActivityTest {
         onView(withId(R.id.fragment_character_list_layout_empty)).check(matches(isDisplayed()))
     }
 
-
     @Test
     fun GIVEN_NO_favorites_WHEN_favoriteFragmentIsShown_THEN_show_empty_info() {
         hiltRule.inject()
@@ -56,7 +55,6 @@ class MainActivityTest {
         onView(withId(R.id.fragment_favorite_layout_no_content)).check(matches(isDisplayed()))
     }
 
-
     @Test
     fun GIVEN_favorites_WHEN_favoriteFragmentIsShown_THEN_show_rv() {
         FakeDataRepositoryImpl.favoriteList = mockCharacterList
@@ -66,7 +64,6 @@ class MainActivityTest {
 
         onView(withId(R.id.nav_view)).check(matches(isDisplayed()))
         onView(withId(R.id.fragment_favorite_list_rv)).check(matches(isDisplayed()))
-
 
         FakeDataRepositoryImpl.favoriteList = mutableListOf()
     }

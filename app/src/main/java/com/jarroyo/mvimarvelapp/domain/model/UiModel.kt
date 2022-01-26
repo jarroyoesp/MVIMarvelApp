@@ -11,17 +11,17 @@ data class UiModel(
     val id: Long,
     val name: String?,
     val description: String?,
-    val imageHomeUrl: String?,
+    val imageHomeUrl: String? = null,
     val comicList: List<ItemUIModel>? = null,
     val seriesList: List<ItemUIModel>? = null,
-    val storiesList: List<ItemUIModel>? = null,
+    val storiesList: List<ItemUIModel>? = null
 ) : Parcelable
 
 @Parcelize
 data class ItemUIModel(
     val resourceURI: String,
     val title: String
-): Parcelable
+) : Parcelable
 
 fun APIListResponse.toDomainModel(): List<UiModel>? {
     return this.apiData?.results?.map {
@@ -31,7 +31,7 @@ fun APIListResponse.toDomainModel(): List<UiModel>? {
             imageHomeUrl = getHomeImage(it),
             comicList = getComics(it),
             seriesList = getSeries(it),
-            storiesList = getStories(it),
+            storiesList = getStories(it)
         )
     }
 }
@@ -62,22 +62,23 @@ fun UiModel.toEntity(): CharacterEntity {
     return CharacterEntity(id = this.id,
         name = this.name,
         description = this.description,
-        image = this.imageHomeUrl )
+        image = this.imageHomeUrl)
 }
 
-fun CharacterEntity.toDomain(): UiModel{
-    return this.let {
-        UiModel(
-            id = this.id,
-            name = this.name,
-            description = this.description,
-            imageHomeUrl = this.image
-        )
-    }
+fun CharacterEntity.toDomain(): UiModel {
+    return UiModel(
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        imageHomeUrl = this.image,
+        comicList = null,
+        seriesList = null,
+        storiesList = null
+    )
 }
 
 fun List<CharacterEntity>?.toDomain(): List<UiModel> {
     return this?.map {
         it.toDomain()
-    }?: emptyList()
+    } ?: emptyList()
 }

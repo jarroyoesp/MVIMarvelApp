@@ -17,7 +17,6 @@ class ListRVAdapter(
         notifyChanges(oldList, newList) { o, n -> o.id == n.id }
     }
 
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ListViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.item_rv, viewGroup, false)

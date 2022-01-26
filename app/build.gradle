@@ -6,6 +6,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'jacoco'
     id 'io.gitlab.arturbosch.detekt'
+    id 'com.diffplug.gradle.spotless'
     //id 'org.cqfn.diktat.diktat-gradle-plugin'
 }
 
@@ -186,5 +187,36 @@ configurations.all{
                 details.useVersion "0.8.7"
             }
         }
+    }
+}
+
+spotless {
+    java {
+        target '**/*.java'
+        googleJavaFormat().aosp()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
+    }
+    kotlin {
+        target '**/*.kt'
+        ktlint()
+        trimTrailingWhitespace()
+        indentWithSpaces()
+        endWithNewline()
+    }
+    format 'misc', {
+        target '**/*.gradle', '**/*.md', '**/.gitignore'
+        indentWithSpaces()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    format 'xml', {
+        target '**/*.xml'
+        indentWithSpaces()
+        trimTrailingWhitespace()
+        endWithNewline()
     }
 }

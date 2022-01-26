@@ -13,18 +13,17 @@ interface DiskDataSource {
     fun deleteAllTables()
 }
 
-class DiskDataSourceImpl(private val roomDatabase: AppRoomDatabase): DiskDataSource {
+class DiskDataSourceImpl(private val roomDatabase: AppRoomDatabase) : DiskDataSource {
 
     override fun insertCharacter(characterEntity: CharacterEntity) = roomDatabase.characterDao().insert(characterEntity)
     override fun removeCharacter(id: Long) = roomDatabase.characterDao().delete(id)
-    override fun getCharacterList(): Result<List<UiModel>?>{
+    override fun getCharacterList(): Result<List<UiModel>?> {
         return Result.success(roomDatabase.characterDao().getAll().toDomain())
     }
     override fun getCharacter(id: Long): Result<UiModel?> {
         return roomDatabase.characterDao().getCharacter(id)?.let {
             Result.success(it.toDomain())
         } ?: Result.failure(Exception("Character not found"))
-
     }
 
     override fun deleteAllTables() {

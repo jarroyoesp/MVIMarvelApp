@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jarroyo.mvimarvelapp.R
 import com.squareup.picasso.Picasso
 
-
 fun ImageView.loadUrl(context: Context, url: String?) {
     url?.let {
         Picasso.with(context).load(url).into(this)
@@ -21,7 +20,9 @@ fun ImageView.loadUrl(context: Context, url: String?) {
 }
 
 fun ViewGroup.inflate(
-    inflater: LayoutInflater, @LayoutRes layoutRes: Int, attached: Boolean = false
+    inflater: LayoutInflater,
+    @LayoutRes layoutRes: Int,
+    attached: Boolean = false
 ): View = inflater.inflate(layoutRes, this, attached)
 
 fun <T : View> T?.visible(): T? = this?.apply { visibility = View.VISIBLE }

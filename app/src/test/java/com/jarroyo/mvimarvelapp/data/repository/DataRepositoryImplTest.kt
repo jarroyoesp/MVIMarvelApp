@@ -1,6 +1,5 @@
 package com.jarroyo.mvimarvelapp.data.repository
 
-
 import android.accounts.NetworkErrorException
 import com.jarroyo.mvimarvelapp.data.local.DiskDataSource
 import com.jarroyo.mvimarvelapp.data.remote.NetworkDataSource

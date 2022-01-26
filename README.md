@@ -1,5 +1,8 @@
 # MARVEL-APP MVVM-MVI
 
+
+![CI](https://github.com/jarroyoesp/MVIMarvelApp/workflows/CI/badge.svg) ![Language](https://img.shields.io/github/languages/top/jarroyoesp/MVIMarvelApp?color=blue&logo=kotlin)
+
 This project is an APP developed to show the Marvel characters information using the open [Marvel API](https://developer.marvel.com/).
 
 # Main features:

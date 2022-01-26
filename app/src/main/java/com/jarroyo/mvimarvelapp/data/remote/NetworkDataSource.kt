@@ -32,7 +32,6 @@ class NetworkDataSourceImpl(
             } catch (ioException: IOException) {
                 Result.failure(ioException)
             }
-
         } else {
             Result.failure(NetworkErrorException())
         }
@@ -48,7 +47,6 @@ class NetworkDataSourceImpl(
                 } else {
                     Result.failure(NetworkErrorException())
                 }
-
             } catch (ioException: IOException) {
                 Result.failure(ioException)
             }

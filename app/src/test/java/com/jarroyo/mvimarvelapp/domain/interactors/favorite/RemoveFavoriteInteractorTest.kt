@@ -1,9 +1,7 @@
 package com.jarroyo.mvimarvelapp.domain.interactors.favorite
 
-import android.accounts.NetworkErrorException
 import com.jarroyo.mvimarvelapp.domain.repository.DataRepository
 import com.jarroyo.mvimarvelapp.mockCharacterUIModel
-import com.jarroyo.mvimarvelapp.mockCharacterUIModelList
 import com.jarroyo.mvimarvelapp.mockException
 import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
@@ -11,7 +9,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -46,7 +44,6 @@ class RemoveFavoriteInteractorTest {
         assert(response.isFailure)
     }
 
-
     @Test
     fun `GIVEN remote success WHEN call invoke() THEN returns EitherRight`() = runBlocking {
         // Given
@@ -60,4 +57,3 @@ class RemoveFavoriteInteractorTest {
         assertEquals(response.getOrNull(), true)
     }
 }
-

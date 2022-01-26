@@ -6,8 +6,12 @@ import com.jarroyo.mvimarvelapp.domain.interactors.SearchInteractor
 import com.jarroyo.mvimarvelapp.mockCharacterUIModelList
 import com.jarroyo.mvimarvelapp.mockException
 import com.jarroyo.mvimarvelapp.presentation.main.contract.MainContract
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
+import io.mockk.spyk
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.take
@@ -32,7 +36,6 @@ class MainViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-
 
     @Before
     fun setUp() {

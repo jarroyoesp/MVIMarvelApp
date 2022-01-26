@@ -9,7 +9,7 @@ data class APIListResponse(
     val attributionText: String = "",
     val code: Int = 0,
     val copyright: String = "",
-    @Json(name="data")
+    @Json(name = "data")
     val apiData: Data? = null,
     val etag: String = "",
     val status: String = ""

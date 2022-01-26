@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.Response.error
 
 object MockAPiResponses {
-    fun <T>getErrorResponse(): Response<T> = error<T>(404,
+    fun <T> getErrorResponse(): Response<T> = error<T>(404,
         "responseString".toByteArray().toResponseBody("application/json".toMediaTypeOrNull())
     )
 }

@@ -5,8 +5,12 @@ import com.jarroyo.mvimarvelapp.domain.interactors.favorite.GetFavoriteListInter
 import com.jarroyo.mvimarvelapp.mockCharacterUIModelList
 import com.jarroyo.mvimarvelapp.mockException
 import com.jarroyo.mvimarvelapp.presentation.main.contract.FavoriteContract
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
+import io.mockk.spyk
 import junit.framework.Assert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.take
@@ -36,7 +40,7 @@ class FavoriteViewModelTest {
 
         viewModel = spyk(
             FavoriteViewModel(
-                getFavoriteListInteractor,
+                getFavoriteListInteractor
             )
         )
     }
@@ -69,7 +73,6 @@ class FavoriteViewModelTest {
                 mockCharacterUIModelList
             )
         }
-
 
     @Test
     fun `GIVEN empty favorites WHEN IntentFetchData is sent THEN getFavoriteListInteractor is called`() =

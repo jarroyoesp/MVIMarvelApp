@@ -12,6 +12,7 @@ import com.jarroyo.mvimarvelapp.presentation.main.contract.EditTextSearchState
 import com.jarroyo.mvimarvelapp.presentation.main.contract.MainContract
 import com.jarroyo.mvimarvelapp.presentation.utils.IModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
@@ -21,14 +22,13 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel
 @Inject
 constructor(
     private val getListInteractor: GetListInteractor,
-    private val searchInteractor: SearchInteractor,
+    private val searchInteractor: SearchInteractor
 ) : ViewModel(), IModel<MainContract.State, MainContract.Intent, MainContract.Effect> {
 
     companion object {
@@ -98,7 +98,6 @@ constructor(
                     }
                     sendEffect { MainContract.Effect.ShowPage(list) }
                 }
-
             } else {
                 updateState {
                     it.copy(
@@ -115,7 +114,6 @@ constructor(
         }
     }
 
-
     private fun searchDataFlow() {
         viewModelScope.launch {
             _state.value?.searchFlow?.debounce(DEBOUNCE)
@@ -131,7 +129,6 @@ constructor(
                                 state.value?.list?.let {
                                     sendEffect { MainContract.Effect.ResetList(it) }
                                 } ?: sendEffect { MainContract.Effect.InitialState }
-
                             } else {
                                 Log.d(TAG, "[searchDataFlow] $it")
                                 search(it.query)

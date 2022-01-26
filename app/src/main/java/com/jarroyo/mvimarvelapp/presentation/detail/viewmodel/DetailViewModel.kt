@@ -10,16 +10,15 @@ import com.jarroyo.mvimarvelapp.domain.interactors.favorite.RemoveFavoriteIntera
 import com.jarroyo.mvimarvelapp.domain.interactors.favorite.SaveFavoriteInteractor
 import com.jarroyo.mvimarvelapp.domain.model.UiModel
 import com.jarroyo.mvimarvelapp.presentation.detail.contract.DetailContract
-import com.jarroyo.mvimarvelapp.presentation.main.contract.FavoriteContract
 import com.jarroyo.mvimarvelapp.presentation.utils.IModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel
@@ -27,7 +26,7 @@ class DetailViewModel
 constructor(
     private val isFavoriteInteractor: IsFavoriteInteractor,
     private val saveFavoriteInteractor: SaveFavoriteInteractor,
-    private val removeFavoriteInteractor: RemoveFavoriteInteractor,
+    private val removeFavoriteInteractor: RemoveFavoriteInteractor
 ) : ViewModel(),
     IModel<DetailContract.State, DetailContract.Intent, DetailContract.Effect> {
 
@@ -48,7 +47,6 @@ constructor(
     private val _effect: Channel<DetailContract.Effect> = Channel()
     override val effects = _effect.receiveAsFlow()
 
-
     init {
         handlerIntent()
     }
@@ -68,7 +66,6 @@ constructor(
             }
         }
     }
-
 
     private fun isFavorite(uiModel: UiModel) = viewModelScope.launch {
         val result = isFavoriteInteractor.invoke(uiModel)

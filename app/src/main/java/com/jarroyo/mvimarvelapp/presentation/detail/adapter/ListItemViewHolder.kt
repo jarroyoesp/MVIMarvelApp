@@ -3,7 +3,6 @@ package com.jarroyo.mvimarvelapp.presentation.detail.adapter
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jarroyo.mvimarvelapp.R
@@ -26,7 +25,7 @@ class ListItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view)
         Log.d(TAG, "[bind] $itemUIModel")
         textViewTitle.text = "${itemUIModel.title}"
 
-        //imageView.loadUrl(view.context, characterUIModel.imageHomeUrl)
+        // imageView.loadUrl(view.context, characterUIModel.imageHomeUrl)
 
         layoutMain.setOnClickListener {
             listener(ListItemRVAdapter.ItemData(position, itemUIModel, view))

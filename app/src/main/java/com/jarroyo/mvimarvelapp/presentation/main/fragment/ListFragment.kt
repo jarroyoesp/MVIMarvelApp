@@ -23,11 +23,10 @@ import com.jarroyo.mvimarvelapp.presentation.utils.addGridSeparators
 import com.jarroyo.mvimarvelapp.presentation.utils.gone
 import com.jarroyo.mvimarvelapp.presentation.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.IllegalArgumentException
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
-
 
 @AndroidEntryPoint
 class ListFragment : Fragment(), IView<MainContract.Effect> {
@@ -60,7 +59,8 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListBinding.inflate(inflater, container, false)
@@ -126,7 +126,6 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
                             Log.d(TAG, "[onScrollStateChanged] end")
                             getData()
                         }
-
                     }
                 }
             }
@@ -139,10 +138,10 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
         })
     }
 
-    private fun RecyclerView.canUserScroll(newState: Int) = isUserScroll
-            && !isUserSearching
-            && !this.canScrollVertically(1)
-            && newState == RecyclerView.SCROLL_STATE_IDLE
+    private fun RecyclerView.canUserScroll(newState: Int) = isUserScroll &&
+            !isUserSearching &&
+            !this.canScrollVertically(1) &&
+            newState == RecyclerView.SCROLL_STATE_IDLE
 
     private fun getData() {
         // Fetching data when the application launched
@@ -181,7 +180,6 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
         binding.fragmentCharacterListRv.visible()
         adapter.showList(list)
     }
-
 
     private fun showLoading() {
         Log.d(TAG, "[showLoading]")

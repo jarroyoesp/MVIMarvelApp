@@ -1,18 +1,17 @@
 package com.jarroyo.mvimarvelapp.presentation.detail.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.jarroyo.mvimarvelapp.domain.interactors.favorite.GetFavoriteListInteractor
 import com.jarroyo.mvimarvelapp.domain.interactors.favorite.IsFavoriteInteractor
 import com.jarroyo.mvimarvelapp.domain.interactors.favorite.RemoveFavoriteInteractor
 import com.jarroyo.mvimarvelapp.domain.interactors.favorite.SaveFavoriteInteractor
 import com.jarroyo.mvimarvelapp.mockCharacterUIModel
-import com.jarroyo.mvimarvelapp.mockCharacterUIModelList
 import com.jarroyo.mvimarvelapp.presentation.detail.contract.DetailContract
-import com.jarroyo.mvimarvelapp.presentation.main.contract.FavoriteContract
-import com.jarroyo.mvimarvelapp.presentation.main.viewmodel.FavoriteViewModel
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.clearAllMocks
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
-import junit.framework.Assert
+import io.mockk.spyk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
@@ -20,7 +19,6 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -50,7 +48,7 @@ class DetailViewModelTest {
             DetailViewModel(
                 isFavoriteInteractor,
                 saveFavoriteInteractor,
-                removeFavoriteInteractor,
+                removeFavoriteInteractor
             )
         )
     }
@@ -96,7 +94,7 @@ class DetailViewModelTest {
         runBlockingTest {
             // Given
             coEvery { saveFavoriteInteractor.invoke(any()) } returns Result.success(true)
-            viewModel.state.value?.isFavorite  = false
+            viewModel.state.value?.isFavorite = false
 
             // When
             viewModel.intents.send(DetailContract.Intent.SaveFavorite(mockCharacterUIModel))
@@ -112,7 +110,7 @@ class DetailViewModelTest {
         runBlockingTest {
             // Given
             coEvery { removeFavoriteInteractor.invoke(any()) } returns Result.success(true)
-            viewModel.state.value?.isFavorite  = true
+            viewModel.state.value?.isFavorite = true
 
             // When
             viewModel.intents.send(DetailContract.Intent.SaveFavorite(mockCharacterUIModel))

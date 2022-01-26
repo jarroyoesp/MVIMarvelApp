@@ -17,7 +17,6 @@ class ListItemRVAdapter(
         notifyChanges(oldList, newList) { o, n -> o.resourceURI == n.resourceURI }
     }
 
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ListItemViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.item_rv_detail, viewGroup, false)

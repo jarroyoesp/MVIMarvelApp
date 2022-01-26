@@ -8,7 +8,6 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -42,7 +41,6 @@ class GetListInteractorTest {
         // Then
         assert(response.isFailure)
     }
-
 
     @Test
     fun `GIVEN remote success WHEN call getHomeData THEN returns EitherRight`() = runBlocking {

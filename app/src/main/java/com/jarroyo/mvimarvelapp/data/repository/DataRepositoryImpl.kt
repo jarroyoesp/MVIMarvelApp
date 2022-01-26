@@ -30,7 +30,6 @@ class DataRepositoryImpl(
         return withContext(ioDispatcher) {
             diskDataSource.insertCharacter(uiModel.toEntity())
             Result.success(true)
-
         }
     }
 
@@ -59,4 +58,3 @@ class DataRepositoryImpl(
         }
     }
 }
-

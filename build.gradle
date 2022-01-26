@@ -19,8 +19,10 @@ buildscript {
         classpath "org.jacoco:org.jacoco.core:$jacocoVersion"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
         classpath "org.cqfn.diktat:diktat-gradle-plugin:1.0.2"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:4.5.1"
     }
     apply from: project.rootProject.file("keys.gradle")
+    apply from: "$project.rootDir/spotless.gradle"
 }
 
 task clean(type: Delete) {

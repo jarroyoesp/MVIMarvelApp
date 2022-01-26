@@ -17,7 +17,6 @@ abstract class AppRoomDatabase : RoomDatabase() {
     companion object {
         private const val DATABASE_NAME: String = "marvel_db"
 
-
         fun createInstance(appContext: Application):
                 AppRoomDatabase = Room.databaseBuilder(
             appContext,

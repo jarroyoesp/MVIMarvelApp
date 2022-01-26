@@ -48,7 +48,8 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         setHasOptionsMenu(true)
@@ -142,7 +143,6 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
                 binding.fragmentCharacterDetailComicsRv.layoutManager = layoutManager
 
                 adapterComics = ListItemRVAdapter(onClickItemListener = {
-
                 })
                 binding.fragmentCharacterDetailComicsRv.adapter = adapterComics
 
@@ -161,7 +161,6 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
                 binding.fragmentCharacterDetailSeriesRv.layoutManager = layoutManager
 
                 adapterSeries = ListItemRVAdapter(onClickItemListener = {
-
                 })
                 binding.fragmentCharacterDetailSeriesRv.adapter = adapterSeries
 
@@ -180,7 +179,6 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
                 binding.fragmentCharacterDetailStoriesRv.layoutManager = layoutManager
 
                 adapterStories = ListItemRVAdapter(onClickItemListener = {
-
                 })
                 binding.fragmentCharacterDetailStoriesRv.adapter = adapterStories
 
@@ -216,7 +214,7 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
     }
 
     override fun render(effect: DetailContract.Effect) {
-        when(effect) {
+        when (effect) {
             DetailContract.Effect.HideLoading -> TODO()
             DetailContract.Effect.InitialState -> TODO()
             is DetailContract.Effect.ShowError -> TODO()

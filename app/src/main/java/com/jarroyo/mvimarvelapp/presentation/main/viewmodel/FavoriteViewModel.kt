@@ -9,19 +9,19 @@ import com.jarroyo.mvimarvelapp.domain.interactors.favorite.GetFavoriteListInter
 import com.jarroyo.mvimarvelapp.presentation.main.contract.FavoriteContract
 import com.jarroyo.mvimarvelapp.presentation.utils.IModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteViewModel
 @Inject
 constructor(
-    private val getFavoriteListInteractor: GetFavoriteListInteractor,
+    private val getFavoriteListInteractor: GetFavoriteListInteractor
 ) : ViewModel(), IModel<FavoriteContract.State, FavoriteContract.Intent, FavoriteContract.Effect> {
 
     companion object {
@@ -40,7 +40,6 @@ constructor(
     // EFFECTS
     private val _effect: Channel<FavoriteContract.Effect> = Channel()
     override val effects = _effect.receiveAsFlow()
-
 
     init {
         handlerIntent()
@@ -81,7 +80,6 @@ constructor(
             sendEffect { FavoriteContract.Effect.ShowError(it) }
         })
     }
-
 
     override fun onCleared() {
         super.onCleared()

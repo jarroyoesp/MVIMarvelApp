@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jarroyo.mvimarvelapp.R
@@ -16,17 +15,16 @@ import com.jarroyo.mvimarvelapp.databinding.FragmentFavoriteBinding
 import com.jarroyo.mvimarvelapp.domain.model.UiModel
 import com.jarroyo.mvimarvelapp.presentation.main.adapter.ListRVAdapter
 import com.jarroyo.mvimarvelapp.presentation.main.contract.FavoriteContract
-import com.jarroyo.mvimarvelapp.presentation.main.contract.MainContract
 import com.jarroyo.mvimarvelapp.presentation.main.viewmodel.FavoriteViewModel
 import com.jarroyo.mvimarvelapp.presentation.utils.IView
 import com.jarroyo.mvimarvelapp.presentation.utils.addGridSeparators
 import com.jarroyo.mvimarvelapp.presentation.utils.gone
 import com.jarroyo.mvimarvelapp.presentation.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.IllegalArgumentException
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 
 @AndroidEntryPoint
 class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
@@ -53,7 +51,8 @@ class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
@@ -126,7 +125,6 @@ class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
         fun onClickCharacterFavorite(view: View, uiModel: UiModel)
     }
 
-
     private fun getData() {
         // Fetching data when the application launched
         lifecycleScope.launch {
@@ -141,7 +139,6 @@ class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
                 hideLoading()
             }
             FavoriteContract.Effect.InitialState -> {
-
             }
             FavoriteContract.Effect.NoFavorites -> {
                 showNoContent()

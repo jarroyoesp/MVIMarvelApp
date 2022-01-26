@@ -32,7 +32,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun getExtras() {
-        uiModel  = intent.extras?.get(ARG_ITEM) as? UiModel
+        uiModel = intent.extras?.get(ARG_ITEM) as? UiModel
     }
 
     private fun addFragment(uiModel: UiModel) {

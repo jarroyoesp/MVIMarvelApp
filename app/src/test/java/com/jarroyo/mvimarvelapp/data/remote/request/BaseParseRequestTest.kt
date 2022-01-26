@@ -54,7 +54,6 @@ abstract class BaseParseRequestTest {
                 .body(responseString.toByteArray().toResponseBody("application/json".toMediaTypeOrNull()))
                 .addHeader("content-type", "application/json")
                 .build()
-
         }
     }
 }

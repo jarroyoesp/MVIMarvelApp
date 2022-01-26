@@ -2,8 +2,6 @@ package java.com.jarroyo.marvel.data.repository
 
 import com.jarroyo.mvimarvelapp.domain.model.UiModel
 import com.jarroyo.mvimarvelapp.domain.repository.DataRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class FakeDataRepositoryImpl : DataRepository {
 

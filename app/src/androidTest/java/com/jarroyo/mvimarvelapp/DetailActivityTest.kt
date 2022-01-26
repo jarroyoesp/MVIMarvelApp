@@ -6,20 +6,21 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.runner.AndroidJUnit4
 import com.jarroyo.mvimarvelapp.domain.model.UiModel
 import com.jarroyo.mvimarvelapp.presentation.detail.activity.DetailActivity
 import com.jarroyo.mvimarvelapp.presentation.detail.activity.DetailActivity.Companion.ARG_ITEM
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import java.com.jarroyo.marvel.data.repository.FakeDataRepositoryImpl
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.com.jarroyo.marvel.data.repository.FakeDataRepositoryImpl
-
 
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
@@ -41,7 +42,6 @@ class DetailActivityTest {
 
         onView(withId(R.id.fragment_detail_toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.fragment_detail_tv_description)).check(matches(isDisplayed()))
-
     }
 
     @Test
@@ -53,7 +53,6 @@ class DetailActivityTest {
 
         onView(withId(R.id.fragment_detail_toolbar)).check(matches(isDisplayed()))
         onView(withTagValue(equalTo(R.drawable.ic_favorite))).check(matches(isDisplayed()))
-
     }
 
     @Test
@@ -65,7 +64,6 @@ class DetailActivityTest {
 
         onView(withId(R.id.fragment_detail_toolbar)).check(matches(isDisplayed()))
         onView(withTagValue(equalTo(R.drawable.ic_favorite_unselected))).check(matches(isDisplayed()))
-
     }
 
     @Test

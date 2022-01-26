@@ -35,7 +35,7 @@ class DiskDataSourceImplTest {
     @Test
     fun `GIVEN success WHEN call getCharacterList THEN returns EitherRight`() = runBlocking {
         // Given
-        coEvery { roomDatabase.characterDao().getAll()} returns mockCharacterEntityList
+        coEvery { roomDatabase.characterDao().getAll() } returns mockCharacterEntityList
 
         // When
         val response = diskDataSourceImpl.getCharacterList()
@@ -48,7 +48,7 @@ class DiskDataSourceImplTest {
     @Test
     fun `GIVEN success WHEN call getCharacter THEN returns EitherRight`() = runBlocking {
         // Given
-        coEvery { roomDatabase.characterDao().getCharacter(any())} returns mockCharacterEntity
+        coEvery { roomDatabase.characterDao().getCharacter(any()) } returns mockCharacterEntity
 
         // When
         val response = diskDataSourceImpl.getCharacter(1)

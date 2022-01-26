@@ -8,11 +8,10 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class SearchInteractorTest{
+class SearchInteractorTest {
 
     private lateinit var searchInteractor: SearchInteractor
 
@@ -43,7 +42,6 @@ class SearchInteractorTest{
         // Then
         assert(response.isFailure)
     }
-
 
     @Test
     fun `GIVEN remote success WHEN call invoke() THEN returns EitherRight`() = runBlocking {

@@ -1,12 +1,11 @@
 package com.jarroyo.mvimarvelapp.data.remote
 
 import com.jarroyo.mvimarvelapp.BuildConfig
-import okhttp3.Interceptor
-import okhttp3.Response
 import java.io.IOException
 import java.math.BigInteger
 import java.security.MessageDigest
-
+import okhttp3.Interceptor
+import okhttp3.Response
 
 class ApiParamsInterceptor : Interceptor {
 

@@ -1,7 +1,5 @@
 package com.jarroyo.mvimarvelapp.data.remote
 
-import org.junit.Assert.*
-
 import com.jarroyo.mvimarvelapp.data.remote.model.APIListResponse
 import com.jarroyo.mvimarvelapp.domain.model.toDomainModel
 import io.mockk.MockKAnnotations
@@ -11,10 +9,10 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
-
 
 class NetworkDataSourceImplTest {
     @MockK
@@ -42,7 +40,7 @@ class NetworkDataSourceImplTest {
     @Test
     fun `GIVEN remote error WHEN call getCharacterList THEN returns EitherLeft`() = runBlocking {
         // Given
-        coEvery { apiService.getCharacterList(any())} returns MockAPiResponses.getErrorResponse()
+        coEvery { apiService.getCharacterList(any()) } returns MockAPiResponses.getErrorResponse()
         every { networkSystem.isNetworkAvailable() } returns true
 
         // When
@@ -56,7 +54,7 @@ class NetworkDataSourceImplTest {
     fun `GIVEN remote success WHEN call getCharacterList THEN returns EitherRight`() = runBlocking {
         // Given
         val apiResponse = APIListResponse()
-        coEvery { apiService.getCharacterList(any())} returns Response.success(
+        coEvery { apiService.getCharacterList(any()) } returns Response.success(
             apiResponse
         )
         every { networkSystem.isNetworkAvailable() } returns true
@@ -84,7 +82,7 @@ class NetworkDataSourceImplTest {
     @Test
     fun `GIVEN remote error WHEN call searchCharacterList THEN returns EitherLeft`() = runBlocking {
         // Given
-        coEvery { apiService.searchCharacterList(any())} returns MockAPiResponses.getErrorResponse()
+        coEvery { apiService.searchCharacterList(any()) } returns MockAPiResponses.getErrorResponse()
         every { networkSystem.isNetworkAvailable() } returns true
 
         // When
@@ -98,7 +96,7 @@ class NetworkDataSourceImplTest {
     fun `GIVEN remote success WHEN call searchCharacterList THEN returns EitherRight`() = runBlocking {
         // Given
         val apiResponse = APIListResponse()
-        coEvery { apiService.searchCharacterList(any())} returns Response.success(
+        coEvery { apiService.searchCharacterList(any()) } returns Response.success(
             apiResponse
         )
         every { networkSystem.isNetworkAvailable() } returns true
