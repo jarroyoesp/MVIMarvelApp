@@ -2,7 +2,6 @@ package com.jarroyo.mvimarvelapp.presentation.main.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,16 +20,15 @@ import com.jarroyo.mvimarvelapp.presentation.utils.addGridSeparators
 import com.jarroyo.mvimarvelapp.presentation.utils.gone
 import com.jarroyo.mvimarvelapp.presentation.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.IllegalArgumentException
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
 
     companion object {
-        private val TAG = FavoriteFragment::class.java.simpleName
         fun newInstance() = FavoriteFragment()
     }
 
@@ -93,20 +91,20 @@ class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
     }
 
     private fun showError(throwable: Throwable) {
-        Log.d(TAG, "[showError] $throwable")
+        Timber.d("$throwable")
     }
 
     private fun showList(list: List<UiModel>) {
-        Log.d(TAG, "[showList] $list")
+        Timber.d("$list")
         adapter.showList(list)
     }
 
     private fun showLoading() {
-        Log.d(TAG, "[showLoading]")
+        Timber.d("-")
     }
 
     private fun hideLoading() {
-        Log.d(TAG, "[hideLoading]")
+        Timber.d("-")
     }
 
     private fun initRecyclerView() {
@@ -133,7 +131,7 @@ class FavoriteFragment : Fragment(), IView<FavoriteContract.Effect> {
     }
 
     override fun render(effect: FavoriteContract.Effect) {
-        Log.d(TAG, "[render] $effect")
+        Timber.d("$effect")
         when (effect) {
             FavoriteContract.Effect.HideLoading -> {
                 hideLoading()

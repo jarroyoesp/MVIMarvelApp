@@ -1,6 +1,5 @@
 package com.jarroyo.mvimarvelapp.presentation.main.viewmodel
 
-import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +21,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @HiltViewModel
 class MainViewModel
@@ -32,8 +32,6 @@ constructor(
 ) : ViewModel(), IModel<MainContract.State, MainContract.Intent, MainContract.Effect> {
 
     companion object {
-        private val TAG = MainViewModel::class.java.simpleName
-
         @VisibleForTesting
         var DEBOUNCE = 500L
     }
@@ -61,7 +59,7 @@ constructor(
     private fun handlerIntent() {
         viewModelScope.launch {
             intents.consumeAsFlow().collect { intent ->
-                Log.d(TAG, "[handlerIntent] $intent")
+                Timber.d("$intent")
                 when (intent) {
                     MainContract.Intent.FetchData -> {
                         fetchData()
@@ -79,7 +77,7 @@ constructor(
             updateState { it.copy(isLoading = true) }
             val result = getListInteractor.invoke(_state.value?.currentPage ?: 0)
             sendEffect { MainContract.Effect.HideLoading }
-            Log.d(TAG, "[fetchData] result $result")
+            Timber.d("result $result")
             if (result.isSuccess) {
                 val list = result.getOrNull()
                 if (list.isNullOrEmpty()) {
@@ -124,13 +122,13 @@ constructor(
                         }
                         is EditTextSearchState.Search -> {
                             if (it.query.isEmpty()) {
-                                Log.d(TAG, "[searchDataFlow] isNullOrEmpty")
+                                Timber.d("isNullOrEmpty")
                                 jobSearch?.cancel()
                                 state.value?.list?.let {
                                     sendEffect { MainContract.Effect.ResetList(it) }
                                 } ?: sendEffect { MainContract.Effect.InitialState }
                             } else {
-                                Log.d(TAG, "[searchDataFlow] $it")
+                                Timber.d("$it")
                                 search(it.query)
                             }
                         }
@@ -150,7 +148,7 @@ constructor(
             val result = searchInteractor.invoke(name)
 
             sendEffect { MainContract.Effect.HideLoading }
-            Log.d(TAG, "[search] result $result")
+            Timber.d("$result")
             if (result.isSuccess) {
                 val list = result.getOrNull()
                 if (list.isNullOrEmpty()) {

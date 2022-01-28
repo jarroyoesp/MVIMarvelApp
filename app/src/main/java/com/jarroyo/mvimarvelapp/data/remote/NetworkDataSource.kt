@@ -4,6 +4,7 @@ import android.accounts.NetworkErrorException
 import com.jarroyo.mvimarvelapp.domain.model.UiModel
 import com.jarroyo.mvimarvelapp.domain.model.toDomainModel
 import java.io.IOException
+import timber.log.Timber
 
 interface NetworkDataSource {
     suspend fun getCharacterList(page: Int): Result<List<UiModel>?>
@@ -22,8 +23,8 @@ class NetworkDataSourceImpl(
     override suspend fun getCharacterList(page: Int): Result<List<UiModel>?> {
         return if (networkSystem.isNetworkAvailable()) {
             try {
-                val response =
-                    apiService.getCharacterList(getOffset(page))
+                val response = apiService.getCharacterList(getOffset(page))
+                Timber.d("Response: $response")
                 if (response.isSuccessful) {
                     Result.success(response.body()?.toDomainModel())
                 } else {
@@ -40,8 +41,8 @@ class NetworkDataSourceImpl(
     override suspend fun searchCharacterList(name: String): Result<List<UiModel>?> {
         return if (networkSystem.isNetworkAvailable()) {
             try {
-                val response =
-                    apiService.searchCharacterList(name)
+                val response = apiService.searchCharacterList(name)
+                Timber.d("Response: $response")
                 if (response.isSuccessful) {
                     Result.success(response.body()?.toDomainModel())
                 } else {

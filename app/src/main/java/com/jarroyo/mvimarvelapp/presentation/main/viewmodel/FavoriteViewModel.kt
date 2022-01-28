@@ -1,6 +1,5 @@
 package com.jarroyo.mvimarvelapp.presentation.main.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,6 +15,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @HiltViewModel
 class FavoriteViewModel
@@ -23,10 +23,6 @@ class FavoriteViewModel
 constructor(
     private val getFavoriteListInteractor: GetFavoriteListInteractor
 ) : ViewModel(), IModel<FavoriteContract.State, FavoriteContract.Intent, FavoriteContract.Effect> {
-
-    companion object {
-        private val TAG = FavoriteViewModel::class.java.simpleName
-    }
 
     // INTENTS
     override val intents: Channel<FavoriteContract.Intent> = Channel(Channel.UNLIMITED)
@@ -48,7 +44,7 @@ constructor(
     private fun handlerIntent() {
         viewModelScope.launch {
             intents.consumeAsFlow().collect { intent ->
-                Log.d(TAG, "[handlerIntent] $intent")
+                Timber.d("$intent")
                 when (intent) {
                     FavoriteContract.Intent.FetchData -> {
                         getFavoriteList()

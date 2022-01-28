@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,16 +22,15 @@ import com.jarroyo.mvimarvelapp.presentation.utils.addGridSeparators
 import com.jarroyo.mvimarvelapp.presentation.utils.gone
 import com.jarroyo.mvimarvelapp.presentation.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.IllegalArgumentException
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ListFragment : Fragment(), IView<MainContract.Effect> {
 
     companion object {
-        private val TAG = ListFragment::class.java.simpleName
 
         @JvmStatic
         fun newInstance() = ListFragment()
@@ -123,7 +121,7 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
                     RecyclerView.SCROLL_STATE_IDLE -> {
                         if (recyclerView.canUserScroll(newState)) {
                             isUserScroll = false
-                            Log.d(TAG, "[onScrollStateChanged] end")
+                            Timber.d("end")
                             getData()
                         }
                     }
@@ -131,7 +129,7 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
             }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                Log.d(TAG, "[onScrolled]")
+                Timber.d("-")
                 super.onScrolled(recyclerView, dx, dy)
                 isUserScroll = true
             }
@@ -151,20 +149,20 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
     }
 
     private fun showInitialState() {
-        Log.d(TAG, "[showInitialState]")
+        Timber.d("-")
         binding.fragmentCharacterListLayoutEmpty.visible()
         binding.fragmentCharacterListRv.gone()
     }
 
     private fun showError(message: String) {
-        Log.d(TAG, "[showError] $message")
+        Timber.d("$message")
         binding.fragmentCharacterListLayoutError.visible()
         binding.fragmentCharacterListRv.gone()
         binding.fragmentCharacterListLayoutEmpty.gone()
     }
 
     private fun showList(list: List<UiModel>?) {
-        Log.d(TAG, "[showList] $list")
+        Timber.d("$list")
         list?.let {
             binding.fragmentCharacterListLayoutEmpty.gone()
             binding.fragmentCharacterListRv.visible()
@@ -174,7 +172,7 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
     }
 
     private fun showResults(list: List<UiModel>) {
-        Log.d(TAG, "[showList] $list")
+        Timber.d("$list")
         binding.fragmentCharacterListLayoutEmpty.gone()
         binding.fragmentCharacterListLayoutError.gone()
         binding.fragmentCharacterListRv.visible()
@@ -182,13 +180,13 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
     }
 
     private fun showLoading() {
-        Log.d(TAG, "[showLoading]")
+        Timber.d("-")
         binding.fragmentCharacterListSwipeRefreshlayout.isRefreshing = true
         binding.fragmentCharacterListLayoutError.gone()
     }
 
     private fun hideLoading() {
-        Log.d(TAG, "[hideLoading]")
+        Timber.d("-")
         binding.fragmentCharacterListSwipeRefreshlayout.isRefreshing = false
     }
 
@@ -197,7 +195,7 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
     }
 
     override fun render(effect: MainContract.Effect) {
-        Log.d(TAG, "[render] $effect")
+        Timber.d("$effect")
         when (effect) {
             MainContract.Effect.ShowLoading -> {
                 showLoading()
@@ -227,18 +225,18 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
 
         binding.fragmentCharacterListEdittextSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                Log.d(TAG, "[afterTextChanged] $s")
+                Timber.d("$s")
                 lifecycleScope.launch {
                     viewModel.intents.send(MainContract.Intent.SearchData(s.toString()))
                 }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Log.d(TAG, "[beforeTextChanged] $s")
+                Timber.d("$s")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d(TAG, "[onTextChanged] $s")
+                Timber.d("$s")
             }
         })
     }

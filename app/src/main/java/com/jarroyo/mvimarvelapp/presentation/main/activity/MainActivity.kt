@@ -2,7 +2,6 @@ package com.jarroyo.mvimarvelapp.presentation.main.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -17,13 +16,11 @@ import com.jarroyo.mvimarvelapp.presentation.detail.activity.DetailActivity
 import com.jarroyo.mvimarvelapp.presentation.main.fragment.FavoriteFragment
 import com.jarroyo.mvimarvelapp.presentation.main.fragment.ListFragment
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ListFragment.OnCharacterListListener,
     FavoriteFragment.OnCharacterFavoriteListListener {
-    companion object {
-        private val TAG = MainActivity::class.java.simpleName
-    }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -37,7 +34,7 @@ class MainActivity : AppCompatActivity(), ListFragment.OnCharacterListListener,
     }
 
     private fun initView() {
-        Log.d(TAG, "[initView]")
+        Timber.d("-")
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)

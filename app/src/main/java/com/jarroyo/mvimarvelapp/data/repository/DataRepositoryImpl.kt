@@ -7,6 +7,7 @@ import com.jarroyo.mvimarvelapp.domain.model.toEntity
 import com.jarroyo.mvimarvelapp.domain.repository.DataRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class DataRepositoryImpl(
     private val networkDataSource: NetworkDataSource,
@@ -15,18 +16,21 @@ class DataRepositoryImpl(
 ) : DataRepository {
 
     override suspend fun getList(page: Int): Result<List<UiModel>?> {
+        Timber.d("Page: $page")
         return withContext(ioDispatcher) {
             networkDataSource.getCharacterList(page)
         }
     }
 
     override suspend fun search(name: String): Result<List<UiModel>?> {
+        Timber.d("Name: $name")
         return withContext(ioDispatcher) {
             networkDataSource.searchCharacterList(name)
         }
     }
 
     override suspend fun saveFavorite(uiModel: UiModel): Result<Boolean> {
+        Timber.d("UiModel: $uiModel")
         return withContext(ioDispatcher) {
             diskDataSource.insertCharacter(uiModel.toEntity())
             Result.success(true)
@@ -34,6 +38,7 @@ class DataRepositoryImpl(
     }
 
     override suspend fun removeFavorite(uiModel: UiModel): Result<Boolean> {
+        Timber.d("UiModel: $uiModel")
         return withContext(ioDispatcher) {
             diskDataSource.removeCharacter(uiModel.id)
             Result.success(true)
@@ -41,6 +46,7 @@ class DataRepositoryImpl(
     }
 
     override suspend fun getFavorite(): Result<List<UiModel>?> {
+        Timber.d("-")
         return withContext(ioDispatcher) {
             diskDataSource.getCharacterList()
         }

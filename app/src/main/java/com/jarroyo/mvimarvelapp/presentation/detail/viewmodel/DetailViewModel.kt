@@ -1,6 +1,5 @@
 package com.jarroyo.mvimarvelapp.presentation.detail.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +18,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @HiltViewModel
 class DetailViewModel
@@ -29,10 +29,6 @@ constructor(
     private val removeFavoriteInteractor: RemoveFavoriteInteractor
 ) : ViewModel(),
     IModel<DetailContract.State, DetailContract.Intent, DetailContract.Effect> {
-
-    companion object {
-        private val TAG = DetailViewModel::class.java.simpleName
-    }
 
     // INTENTS
     override val intents: Channel<DetailContract.Intent> = Channel(Channel.UNLIMITED)
@@ -54,7 +50,7 @@ constructor(
     private fun handlerIntent() {
         viewModelScope.launch {
             intents.consumeAsFlow().collect { intent ->
-                Log.d(TAG, "[handlerIntent] $intent")
+                Timber.d("Intent: $intent")
                 when (intent) {
                     is DetailContract.Intent.IsFavorite -> {
                         isFavorite(intent.uiModel)

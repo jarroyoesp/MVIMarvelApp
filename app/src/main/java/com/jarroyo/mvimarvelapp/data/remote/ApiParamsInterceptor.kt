@@ -10,7 +10,6 @@ import okhttp3.Response
 class ApiParamsInterceptor : Interceptor {
 
     companion object {
-        val TAG = ApiParamsInterceptor::class.java.simpleName
 
         private const val PARAM_API_KEY = "apikey"
         private const val PARAM_HASH = "hash"
