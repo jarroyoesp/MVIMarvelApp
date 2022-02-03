@@ -66,7 +66,7 @@ class DetailViewModelTest {
             coEvery { isFavoriteInteractor.invoke(any()) } returns true
 
             // When
-            viewModel.intents.send(DetailContract.Intent.IsFavorite(mockCharacterUIModel))
+            viewModel.intents.send(DetailContract.Intent.OnViewAttached(mockCharacterUIModel))
 
             // Then
             coVerify(exactly = 1) { isFavoriteInteractor.invoke(any()) }
@@ -81,7 +81,7 @@ class DetailViewModelTest {
             coEvery { isFavoriteInteractor.invoke(any()) } returns false
 
             // When
-            viewModel.intents.send(DetailContract.Intent.IsFavorite(mockCharacterUIModel))
+            viewModel.intents.send(DetailContract.Intent.OnViewAttached(mockCharacterUIModel))
 
             // Then
             coVerify(exactly = 1) { isFavoriteInteractor.invoke(any()) }
@@ -97,7 +97,7 @@ class DetailViewModelTest {
             viewModel.state.value?.isFavorite = false
 
             // When
-            viewModel.intents.send(DetailContract.Intent.SaveFavorite(mockCharacterUIModel))
+            viewModel.intents.send(DetailContract.Intent.OnClickFavorite(mockCharacterUIModel))
 
             // Then
             coVerify(exactly = 1) { saveFavoriteInteractor.invoke(any()) }
@@ -113,7 +113,7 @@ class DetailViewModelTest {
             viewModel.state.value?.isFavorite = true
 
             // When
-            viewModel.intents.send(DetailContract.Intent.SaveFavorite(mockCharacterUIModel))
+            viewModel.intents.send(DetailContract.Intent.OnClickFavorite(mockCharacterUIModel))
 
             // Then
             coVerify(exactly = 1) { removeFavoriteInteractor.invoke(any()) }

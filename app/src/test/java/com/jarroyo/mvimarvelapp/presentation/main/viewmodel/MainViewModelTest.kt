@@ -66,7 +66,7 @@ class MainViewModelTest {
             )
 
             // When
-            viewModel.intents.send(MainContract.Intent.FetchData)
+            viewModel.intents.send(MainContract.Intent.OnViewAttached)
 
             // Then
             coVerify(exactly = 1) { getListInteractor.invoke(any()) }
@@ -88,7 +88,7 @@ class MainViewModelTest {
             )
 
             // When
-            viewModel.intents.send(MainContract.Intent.FetchData)
+            viewModel.intents.send(MainContract.Intent.OnViewAttached)
 
             // Then
             coVerify(exactly = 1) { getListInteractor.invoke(any()) }
@@ -110,7 +110,7 @@ class MainViewModelTest {
             )
 
             // When
-            viewModel.intents.send(MainContract.Intent.SearchData("asdf"))
+            viewModel.intents.send(MainContract.Intent.OnSearchCharacter("asdf"))
 
             // Then
             coVerify(exactly = 1) { searchInteractor.invoke(any()) }
@@ -133,7 +133,7 @@ class MainViewModelTest {
             )
 
             // When
-            viewModel.intents.send(MainContract.Intent.SearchData("asdf"))
+            viewModel.intents.send(MainContract.Intent.OnSearchCharacter("asdf"))
 
             // Then
             coVerify(exactly = 1) { searchInteractor.invoke(any()) }
@@ -152,7 +152,7 @@ class MainViewModelTest {
             )
 
             // When
-            viewModel.intents.send(MainContract.Intent.SearchData("asdf"))
+            viewModel.intents.send(MainContract.Intent.OnSearchCharacter("asdf"))
 
             // Then
             coVerify(exactly = 1) { searchInteractor.invoke(any()) }

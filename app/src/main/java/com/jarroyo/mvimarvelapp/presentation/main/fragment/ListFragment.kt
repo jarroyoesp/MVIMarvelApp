@@ -144,7 +144,7 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
     private fun getData() {
         // Fetching data when the application launched
         lifecycleScope.launch {
-            viewModel.intents.send(MainContract.Intent.FetchData)
+            viewModel.intents.send(MainContract.Intent.OnViewAttached)
         }
     }
 
@@ -227,7 +227,7 @@ class ListFragment : Fragment(), IView<MainContract.Effect> {
             override fun afterTextChanged(s: Editable?) {
                 Timber.d("$s")
                 lifecycleScope.launch {
-                    viewModel.intents.send(MainContract.Intent.SearchData(s.toString()))
+                    viewModel.intents.send(MainContract.Intent.OnSearchCharacter(s.toString()))
                 }
             }
 

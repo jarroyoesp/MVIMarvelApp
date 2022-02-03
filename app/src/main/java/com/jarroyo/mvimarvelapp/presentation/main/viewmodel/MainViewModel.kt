@@ -61,10 +61,10 @@ constructor(
             intents.consumeAsFlow().collect { intent ->
                 Timber.d("$intent")
                 when (intent) {
-                    MainContract.Intent.FetchData -> {
+                    MainContract.Intent.OnViewAttached -> {
                         fetchData()
                     }
-                    is MainContract.Intent.SearchData -> {
+                    is MainContract.Intent.OnSearchCharacter -> {
                         _state.value?.searchFlow?.emit(EditTextSearchState.Search(intent.text))
                     }
                 }

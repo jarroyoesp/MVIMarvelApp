@@ -14,8 +14,8 @@ object DetailContract {
     ) : ViewState
 
     sealed class Intent : ViewIntent {
-        data class IsFavorite(val uiModel: UiModel) : Intent()
-        data class SaveFavorite(val uiModel: UiModel) : Intent()
+        data class OnViewAttached(val uiModel: UiModel) : Intent()
+        data class OnClickFavorite(val uiModel: UiModel) : Intent()
     }
 
     sealed class Effect : ViewEffect {

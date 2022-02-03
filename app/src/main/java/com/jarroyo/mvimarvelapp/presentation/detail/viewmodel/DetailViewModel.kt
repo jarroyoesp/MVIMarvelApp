@@ -52,10 +52,10 @@ constructor(
             intents.consumeAsFlow().collect { intent ->
                 Timber.d("Intent: $intent")
                 when (intent) {
-                    is DetailContract.Intent.IsFavorite -> {
+                    is DetailContract.Intent.OnViewAttached -> {
                         isFavorite(intent.uiModel)
                     }
-                    is DetailContract.Intent.SaveFavorite -> {
+                    is DetailContract.Intent.OnClickFavorite -> {
                         saveFavorite(intent.uiModel)
                     }
                 }

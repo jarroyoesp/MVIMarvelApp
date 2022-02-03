@@ -71,14 +71,14 @@ class DetailFragment : Fragment(), IView<DetailContract.Effect> {
     private fun getData() {
         // Fetching data when the application launched
         lifecycleScope.launch {
-            viewModel.intents.send(DetailContract.Intent.IsFavorite(uiModel = uiModel))
+            viewModel.intents.send(DetailContract.Intent.OnViewAttached(uiModel = uiModel))
         }
     }
 
     private fun saveFavorite() {
         // Fetching data when the application launched
         lifecycleScope.launch {
-            viewModel.intents.send(DetailContract.Intent.SaveFavorite(uiModel = uiModel))
+            viewModel.intents.send(DetailContract.Intent.OnClickFavorite(uiModel = uiModel))
         }
     }
 

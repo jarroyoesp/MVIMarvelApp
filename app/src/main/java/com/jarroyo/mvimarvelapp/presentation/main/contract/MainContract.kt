@@ -17,8 +17,8 @@ object MainContract {
     ) : ViewState
 
     sealed class Intent : ViewIntent {
-        object FetchData : Intent()
-        data class SearchData(val text: String) : Intent()
+        object OnViewAttached : Intent()
+        data class OnSearchCharacter(val text: String) : Intent()
     }
 
     sealed class Effect : ViewEffect {
