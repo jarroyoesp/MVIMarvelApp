@@ -14,6 +14,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.resetMain
@@ -105,9 +106,9 @@ class MainViewModelTest {
     fun `GIVEN success from search WHEN IntentSearchData is sent THEN searchInteractor is called`() =
         runBlockingTest {
             // Given
-            coEvery { searchInteractor.invoke(any()) } returns Result.success(
+            coEvery { searchInteractor.invoke(any()) } returns flowOf(Result.success(
                 mockCharacterUIModelList
-            )
+            ))
 
             // When
             viewModel.intents.send(MainContract.Intent.OnSearchCharacter("asdf"))
@@ -128,9 +129,9 @@ class MainViewModelTest {
     fun `GIVEN error from search WHEN IntentSearchData is sent THEN searchInteractor is called`() =
         runBlockingTest {
             // Given
-            coEvery { searchInteractor.invoke(any()) } returns Result.failure(
+            coEvery { searchInteractor.invoke(any()) } returns flowOf(Result.failure(
                 mockException
-            )
+            ))
 
             // When
             viewModel.intents.send(MainContract.Intent.OnSearchCharacter("asdf"))
@@ -147,9 +148,9 @@ class MainViewModelTest {
     fun `GIVEN emptydata from search WHEN IntentSearchData is sent THEN searchInteractor is called`() =
         runBlockingTest {
             // Given
-            coEvery { searchInteractor.invoke(any()) } returns Result.failure(
+            coEvery { searchInteractor.invoke(any()) } returns flowOf(Result.failure(
                 mockException
-            )
+            ))
 
             // When
             viewModel.intents.send(MainContract.Intent.OnSearchCharacter("asdf"))

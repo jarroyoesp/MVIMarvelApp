@@ -35,4 +35,5 @@ object MainContract {
 sealed class EditTextSearchState {
     data class Search(val query: String) : EditTextSearchState()
     object Init : EditTextSearchState()
+    object EmptySearch : EditTextSearchState()
 }

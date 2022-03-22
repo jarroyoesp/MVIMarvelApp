@@ -7,18 +7,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jarroyo.mvimarvelapp.domain.interactors.GetListInteractor
 import com.jarroyo.mvimarvelapp.domain.interactors.SearchInteractor
+import com.jarroyo.mvimarvelapp.domain.model.UiModel
 import com.jarroyo.mvimarvelapp.presentation.main.contract.EditTextSearchState
 import com.jarroyo.mvimarvelapp.presentation.main.contract.MainContract
 import com.jarroyo.mvimarvelapp.presentation.utils.IModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -49,8 +52,6 @@ constructor(
     private val _effect: Channel<MainContract.Effect> = Channel()
     override val effects = _effect.receiveAsFlow()
 
-    private var jobSearch: Job? = null
-
     init {
         handlerIntent()
         searchDataFlow()
@@ -65,7 +66,11 @@ constructor(
                         fetchData()
                     }
                     is MainContract.Intent.OnSearchCharacter -> {
-                        _state.value?.searchFlow?.emit(EditTextSearchState.Search(intent.text))
+                        if (intent.text.isNotEmpty()) {
+                            _state.value?.searchFlow?.emit(EditTextSearchState.Search(intent.text))
+                        } else {
+                            _state.value?.searchFlow?.emit(EditTextSearchState.EmptySearch)
+                        }
                     }
                 }
             }
@@ -114,50 +119,43 @@ constructor(
 
     private fun searchDataFlow() {
         viewModelScope.launch {
-            _state.value?.searchFlow?.debounce(DEBOUNCE)
+            _state.value?.searchFlow
+                ?.debounce(DEBOUNCE)
+                ?.filter { searchState ->
+                    when (searchState) {
+                        EditTextSearchState.Init -> return@filter false
+                        is EditTextSearchState.Search -> return@filter true
+                        EditTextSearchState.EmptySearch -> return@filter true
+                    }
+                }
                 ?.distinctUntilChanged()
-                ?.collect {
-                    when (it) {
-                        EditTextSearchState.Init -> {
+                ?.flatMapLatest { editSearchState ->
+                    when (editSearchState) {
+                        EditTextSearchState.EmptySearch -> flow {
+                            emit(Result.success<List<UiModel>?>(_state.value?.list))
                         }
+                        EditTextSearchState.Init -> TODO()
                         is EditTextSearchState.Search -> {
-                            if (it.query.isEmpty()) {
-                                Timber.d("isNullOrEmpty")
-                                jobSearch?.cancel()
-                                state.value?.list?.let {
-                                    sendEffect { MainContract.Effect.ResetList(it) }
-                                } ?: sendEffect { MainContract.Effect.InitialState }
-                            } else {
-                                Timber.d("$it")
-                                search(it.query)
-                            }
+                            updateState { it.copy(isLoading = true) }
+                            sendEffect { MainContract.Effect.ShowLoading }
+                            searchInteractor(editSearchState.query)
                         }
                     }
                 }
-        }
-    }
-
-    /**
-     * Search
-     */
-    private fun search(name: String) {
-        jobSearch?.cancel()
-        jobSearch = viewModelScope.launch {
-            updateState { it.copy(isLoading = true) }
-            sendEffect { MainContract.Effect.ShowLoading }
-            val result = searchInteractor.invoke(name)
-
-            sendEffect { MainContract.Effect.HideLoading }
-            Timber.d("$result")
-            if (result.isSuccess) {
-                val list = result.getOrNull()
-                if (list.isNullOrEmpty()) {
-                    sendEffect { MainContract.Effect.InitialState }
+            ?.collect { result ->
+                Timber.d("$result")
+                updateState { it.copy(isLoading = false) }
+                sendEffect { MainContract.Effect.HideLoading }
+                if (result.isSuccess) {
+                    val list = result.getOrNull()
+                    if (list.isNullOrEmpty()) {
+                        sendEffect { MainContract.Effect.InitialState }
+                    } else {
+                        sendEffect { MainContract.Effect.ShowSearch(list) }
+                    }
                 } else {
-                    sendEffect { MainContract.Effect.ShowSearch(list) }
+                    sendEffect { MainContract.Effect.InitialState }
                 }
-            } else {
-                sendEffect { MainContract.Effect.InitialState }
             }
         }
     }

@@ -6,6 +6,8 @@ import io.mockk.MockKAnnotations
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -34,24 +36,24 @@ class SearchInteractorTest {
     @Test
     fun `GIVEN remote error WHEN call invoke() THEN returns EitherLeft`() = runBlocking {
         // Given
-        coEvery { repository.search(any()) } returns Result.failure(NetworkErrorException())
+        coEvery { repository.search(any()) } returns flowOf(Result.failure(NetworkErrorException()))
 
         // When
-        val response = searchInteractor.invoke("name")
+        val flowResponse = searchInteractor.invoke("name")
 
         // Then
-        assert(response.isFailure)
+        assert(flowResponse.toList().first().isFailure)
     }
 
     @Test
     fun `GIVEN remote success WHEN call invoke() THEN returns EitherRight`() = runBlocking {
         // Given
-        coEvery { repository.search(any()) } returns Result.success(emptyList())
+        coEvery { repository.search(any()) } returns flowOf(Result.success(emptyList()))
 
         // When
-        val response = searchInteractor.invoke("name")
+        val flowResponse = searchInteractor.invoke("name")
 
         // Then
-        assert(response.isSuccess)
+        assert(flowResponse.toList().first().isSuccess)
     }
 }

@@ -12,6 +12,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -77,11 +78,11 @@ class DataRepositoryImplTest {
             mockCharacterUIModelList)
 
         // When
-        val response = dataRepository.search("name")
+        val flowResponse = dataRepository.search("name")
 
         // Then
-        assert(response.isSuccess)
-        assertEquals(response.getOrNull(), mockCharacterUIModelList)
+        assert(flowResponse.toList().first().isSuccess)
+        assertEquals(flowResponse.toList().first().getOrNull(), mockCharacterUIModelList)
     }
     @Test
     fun `GIVEN remote error WHEN call searchCharacterList THEN returns EitherRight`() = runBlocking {
@@ -90,10 +91,10 @@ class DataRepositoryImplTest {
             mockException)
 
         // When
-        val response = dataRepository.search("name")
+        val flowResponse = dataRepository.search("name")
 
         // Then
-        assert(response.isFailure)
+        assert(flowResponse.toList().first().isFailure)
     }
 
     @Test

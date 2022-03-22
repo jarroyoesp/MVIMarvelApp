@@ -6,6 +6,9 @@ import com.jarroyo.mvimarvelapp.domain.model.UiModel
 import com.jarroyo.mvimarvelapp.domain.model.toEntity
 import com.jarroyo.mvimarvelapp.domain.repository.DataRepository
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
@@ -22,12 +25,10 @@ class DataRepositoryImpl(
         }
     }
 
-    override suspend fun search(name: String): Result<List<UiModel>?> {
+    override fun search(name: String): Flow<Result<List<UiModel>?>> = flow {
         Timber.d("Name: $name")
-        return withContext(ioDispatcher) {
-            networkDataSource.searchCharacterList(name)
-        }
-    }
+        emit(networkDataSource.searchCharacterList(name))
+    }.flowOn(ioDispatcher)
 
     override suspend fun saveFavorite(uiModel: UiModel): Result<Boolean> {
         Timber.d("UiModel: $uiModel")
