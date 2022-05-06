@@ -1,13 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'com.github.ben-manes.versions'
+
 buildscript {
     ext.kotlin_version = "1.5.30"
     ext.hilt_version = "2.40.5"
     ext.jacocoVersion = '0.8.7'
     ext.detektVersion = '1.19.0'
+    ext.pluginVersionsGradle = '0.42.0'
 
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.2"
@@ -20,6 +24,8 @@ buildscript {
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektVersion"
         classpath "org.cqfn.diktat:diktat-gradle-plugin:1.0.2"
         classpath "com.diffplug.spotless:spotless-plugin-gradle:4.5.1"
+
+        classpath "com.github.ben-manes:gradle-versions-plugin:$pluginVersionsGradle"
     }
     apply from: project.rootProject.file("keys.gradle")
     apply from: "$project.rootDir/spotless.gradle"
@@ -27,4 +33,16 @@ buildscript {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+}
+tasks.named("dependencyUpdates").configure {
+    gradleReleaseChannel = 'current'
+    rejectVersionIf {
+        isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)
+    }
 }

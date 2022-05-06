@@ -74,5 +74,11 @@ Added UnitTests to check:
 - MainActivity
 - DetailActivity
 
+# Dependency updates
+
+Added this plugin to check dependency updates (https://github.com/ben-manes/gradle-versions-plugin)
+
+- To check if there are new version you only have to run `./gradlew dependencyUpdates`
+
 
 
